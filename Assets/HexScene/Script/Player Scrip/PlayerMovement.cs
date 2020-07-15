@@ -2,10 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Networking;
-using Mirror;
+//using Mirror;
 using System.Runtime.InteropServices;
 
-public class PlayerMovement : NetworkBehaviour
+public class PlayerMovement : MonoBehaviour // NetworkBehaviour
 {
     public Camera playerCamera;
 
@@ -16,11 +16,11 @@ public class PlayerMovement : NetworkBehaviour
     }
 	
 	// Update is called once per frame
-	[Client]
+	//[Client]
     void Update () {
 
-        if (!hasAuthority)
-            return;
+        //if (!hasAuthority)
+           // return;
 
         movement();
         faceMouse();

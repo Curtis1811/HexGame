@@ -1,9 +1,8 @@
-﻿using Mirror;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OrbRespawn : NetworkBehaviour {
+public class OrbRespawn : MonoBehaviour {
 
     public GameObject Orb;
     public Transform SpawnPoint;
@@ -14,7 +13,7 @@ public class OrbRespawn : NetworkBehaviour {
         
     }
 
-    [Server]
+    
     private void Update()
     {
       
