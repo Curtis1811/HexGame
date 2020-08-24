@@ -1,25 +1,27 @@
-﻿using System.Collections;
+﻿using Mirror;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OrbScript : MonoBehaviour
+public class OrbScript : NetworkBehaviour
 {
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    //update is called once per frame
 
-    private void OnCollisionEnter(Collision collision)
+
+    [ServerCallback]
+    void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Player") {
-            Destroy(this);
+            Debug.Log("ok");
+            Destroy(this.gameObject);
         }
     }
+
+    
+
 }

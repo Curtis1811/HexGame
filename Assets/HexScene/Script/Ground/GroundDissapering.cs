@@ -3,94 +3,191 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using UnityEngine;
+using Mirror;
+using Mirror.Websocket;
+using System.Security.Policy;
+using UnityEngine.UI;
+using TMPro;
+using System.Security.Cryptography;
+using System.Management.Instrumentation;
 
-public class GroundDissapering : MonoBehaviour
+
+public class GroundDissapering : NetworkBehaviour
 {
     //GameObject[] groundObjects;
 
-    List<GameObject> hex;
-    GameObject[] SolidGround;
-    //List<int> RemovedList;
+    [SerializeField] GameObject HexPrefab;
+    [SerializeField] List<GameObject> HexPrefabList = new List<GameObject>();
 
-    int storedRand;
-    
 
-    // Use this for initialization
-  
-    void Start()
+    [SerializeField] List<GameObject> hex;
+
+    [SerializeField] GameObject[] SolidGround;
+
+    [SyncVar]
+    [SerializeField] int storedRand;
+
+    float time;
+
+
+    public override void OnStartServer()
     {
-        //groundObjects = GameObject.FindGameObjectsWithTag("Ground");
+        base.OnStartServer();
         hex = GameObject.FindGameObjectsWithTag("Ground").ToList<GameObject>();
-        StartCoroutine("hexFunc");
-        SolidGroundColor();
+        time = Time.time;
+       
+        if(isServer)
+            RpcSpawnHex();
+       
 
+        int rand = Random.Range(0, HexPrefabList.Count);
+        storedRand = rand;
+    }
+
+    public override void OnStartClient()
+    {
+        
+        //base.OnStartClient();
+        SolidGroundColor();
+        hex = GameObject.FindGameObjectsWithTag("Ground").ToList<GameObject>();
+        CmdSpawnHex(); 
 
     }
 
-    // Update is called once per frame
-    
-    void Update()
+    [Server]
+    private void Start()
     {
-        Debug.Log("Hex Count " + hex.Count);
        
 
     }
 
-    public IEnumerator hexFunc()
+
+    [Server]
+    private void Update()
     {
-        while (hex.Count >= 0)
-        {
-           
-
-            if (hex.Count > 0)
+        
+        // Change this to check if All Clients are Ready; then run
+        if (isServer) {
+            //RpcchangeColor();
+            if (Time.time <= time + 5)
             {
-            int rand;
+                //RpcchangeColor();
+                RpcChangeColor();
+                return;
+            }
+            else
+            {
+                time = Time.time;
+                //hexFunc();
+                RpcClientHexRemoval(storedRand);
                 
-                rand = Random.Range(0, hex.Count);
-                storedRand = rand;
-                changeColor();
-                
-                yield return new WaitForSeconds(1f);
-
-                
-                hex[rand].gameObject.GetComponentInChildren<Collider>().enabled = false;
-                hex[rand].gameObject.GetComponentInChildren<Renderer>().enabled = false;
-
-                hex.RemoveAt(rand);
-
-                if (hex.Count <= 0)
-                {
-                    Debug.Log("Break");
-                    break;
-                    
-                }
-
             }
         }
-
-
-        void changeColor()
+        else
         {
-
-            if (hex[storedRand].GetComponentInChildren<Renderer>().material.color != Color.red)
-            {
-               hex[storedRand].GetComponentInChildren<Renderer>().material.color = Color.red;
-                
-            }
            
+        }
+
+    }
+
+   
+
+    [Server]
+    public void hexFunc()
+    {
+        float time;
+        time = Time.time;
+
+        if (hex.Count > 0)
+        {
+            int rand;
+
+            rand = Random.Range(0, hex.Count);
+            storedRand = rand;
+
+            if (isServer)
+                
+                RpcChangeColor();
+
+
+
+            hex[rand].gameObject.GetComponentInChildren<Collider>().enabled = false;
+            hex[rand].gameObject.GetComponentInChildren<Renderer>().enabled = false;
+            hex.RemoveAt(rand);
+            
+            RpcClientHexRemoval(rand);
+            
+            
         }
     }
 
+    [ClientRpc]
+    void RpcChangeColor()
+        {
+       
+
+        if (HexPrefabList[storedRand].gameObject.GetComponent<Renderer>().material.color != Color.red)
+            {
+                HexPrefabList[storedRand].gameObject.GetComponent<Renderer>().material.color = Color.red;
+
+            }
+           
+        }
+
+    
     void SolidGroundColor()
     {
         int count = 0;
         SolidGround = GameObject.FindGameObjectsWithTag("SolidGround");
-
+        
         foreach (GameObject GO in SolidGround)
         {
             count++;
-            SolidGround[count-1].GetComponentInChildren<Renderer>().material.color = Color.blue;
+            SolidGround[count-1].GetComponentInChildren<Renderer>().material.color = Color.yellow;
         }
     }
+
+
+  
+
+
+    [ClientRpc]
+    public void RpcSpawnHex()
+    {
+        while (HexPrefabList.Count < 3) {
+            
+            GameObject go = Instantiate(HexPrefab, new Vector3(4, 4, 4), Quaternion.identity);
+            go.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+            ClientScene.RegisterPrefab(go);
+            NetworkServer.Spawn(go);
+            HexPrefabList.Add(go);
+            HexPrefabList[HexPrefabList.Count-1].transform.position += new Vector3(HexPrefabList.Count, HexPrefabList.Count, HexPrefabList.Count);
+            Debug.Log("Pog");
+        }
+        int rand = Random.Range(0, HexPrefabList.Count);
+        storedRand = rand;
+
+    }
+
+    [ClientRpc]
+    public void RpcClientHexRemoval(int StoredRand)
+    {
+        if (HexPrefabList.Count > 0 ) { 
+            
+            HexPrefabList[StoredRand].gameObject.GetComponent<Renderer>().enabled = false;
+            NetworkServer.UnSpawn(HexPrefabList[StoredRand]);
+            HexPrefabList.RemoveAt(StoredRand);
+            int rand = Random.Range(0, HexPrefabList.Count);
+            storedRand = rand;
+
+        }
+
+
+    }
+
+    public void CmdSpawnHex() {
+        RpcSpawnHex();
+    }
+
 }
 
