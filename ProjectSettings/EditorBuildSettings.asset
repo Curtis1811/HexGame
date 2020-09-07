@@ -5,7 +5,19 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
+  - enabled: 1
+    path: Assets/Scenes/Curtis_Scene.unity
+    guid: 4da891c0c88a7c4419ba3cce93ef4cdf
+  - enabled: 1
+    path: Assets/Scenes/CharacterEdit.unity
+    guid: a8d554841d0892b4f853d52d540706c6
+  - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: ab1a9c7d8bda77141810c6ea40f390d1
+  - enabled: 1
+    path: Assets/Scenes/Game.unity
+    guid: d0da079b194811b498a49741c9c10cf7
   m_configObjects: {}

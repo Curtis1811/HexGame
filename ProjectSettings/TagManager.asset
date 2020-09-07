@@ -8,6 +8,9 @@ TagManager:
   - NetworkManager
   - SolidGround
   - PlayerCamera
+  - Orb
+  - SpawnPoint
+  - FireBall
   layers:
   - Default
   - TransparentFX

@@ -45,8 +45,7 @@ public class OrbRespawn : NetworkBehaviour {
         {
             random = Random.Range(0, 4);
             
-            Debug.Log(random);
-
+            
             GameObject orbInstance = Instantiate(orb, spawnpoint[random].GetComponentInChildren<Transform>().transform.position, Quaternion.identity);
             ClientScene.RegisterPrefab(orbInstance);
 

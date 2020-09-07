@@ -20,8 +20,8 @@ public class MainMenu : MonoBehaviour
     public void play()
     {
 
-        //SceneManager.LoadScene("Curtis_Scene");
-        SceneManager.LoadScene("Game");
+        SceneManager.LoadScene("Curtis_Scene");
+        //SceneManager.LoadScene("Game");
         //Create this into a lobby Manager
     }
 
@@ -38,6 +38,7 @@ public class MainMenu : MonoBehaviour
 
     public void BackToMain()
     {
+              
         SceneManager.LoadScene("MainMenu");
     }
 
@@ -49,7 +50,6 @@ public class MainMenu : MonoBehaviour
         {
             case "Pyromancer":
                 AbilitySelectorPointer.characterClass = 1;
-                
                 Debug.Log("Pyromancer");
                 break;
             case "Hydromancer":
