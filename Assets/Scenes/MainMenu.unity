@@ -228,6 +228,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdd66b381e404f140b0c132476489dbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PyromancerUI: {fileID: 0}
 --- !u!4 &348826715
 Transform:
   m_ObjectHideFlags: 0

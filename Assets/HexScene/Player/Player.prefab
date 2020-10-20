@@ -109,8 +109,6 @@ GameObject:
   - component: {fileID: 1338996441965912229}
   - component: {fileID: 1150035076434729956}
   - component: {fileID: 6529811151908143914}
-  - component: {fileID: -6154249561198685749}
-  - component: {fileID: -4290554250903706228}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -259,36 +257,3 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   playerCamera: {fileID: 0}
---- !u!114 &-6154249561198685749
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8049704082622753196}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1de7bbdf4dea68d4aa631566bcb971b5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  FireList: []
-  PyromancerChosenList: []
-  discription: Fire is good and strong yes!
-  name: Pyromancer
-  fireballPrefab: {fileID: 1699156537710332, guid: 698f84f781248324597a4c81334d5f58,
-    type: 3}
-  AbilityNames: []
---- !u!114 &-4290554250903706228
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8049704082622753196}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35b149c6c39cb4f4aa677cc227b104fd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  FireList: []
-  PyromancerChosenList: []

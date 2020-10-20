@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Security.Policy;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEditor.EventSystems;
 using UnityEngine.EventSystems;
 using System.Runtime.CompilerServices;
 
@@ -19,7 +18,6 @@ public class MainMenu : MonoBehaviour
 
     public void play()
     {
-
         SceneManager.LoadScene("Curtis_Scene");
         //SceneManager.LoadScene("Game");
         //Create this into a lobby Manager
@@ -38,7 +36,7 @@ public class MainMenu : MonoBehaviour
 
     public void BackToMain()
     {
-              
+        
         SceneManager.LoadScene("MainMenu");
     }
 
