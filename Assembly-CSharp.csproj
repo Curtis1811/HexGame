@@ -2,6 +2,8 @@
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <LangVersion>latest</LangVersion>
+    <CscToolPath>C:\Program Files\Unity\Hub\Editor\2019.3.15f1\Editor\Data\Tools\RoslynScripts</CscToolPath>
+    <CscToolExe>unity_csc.bat</CscToolExe>
   </PropertyGroup>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -9,7 +11,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{BA5218D2-820D-391C-7881-29E1E49426BE}</ProjectGuid>
+    <ProjectGuid>{5FF082AA-0980-5F69-0E8E-FEEE2309BF0D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -52,9 +54,6 @@
     <UnityVersion>2019.3.15f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Analyzer Include="C:\Program Files (x86)\Microsoft Visual Studio Tools for Unity\16.0\Analyzers\Microsoft.Unity.Analyzers.dll" />
-  </ItemGroup>
-  <ItemGroup>
     <Reference Include="UnityEngine">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2019.3.15f1\Editor\Data\Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>
@@ -86,6 +85,8 @@
     <Compile Include="Assets\HexScene\Script\Player Scrip\GeneralPlayer\Camera.cs" />
     <Compile Include="Assets\HexScene\Script\Player Scrip\GeneralPlayer\PlayerMovement.cs" />
     <Compile Include="Assets\MainMenu\MainMenu.cs" />
+    <Compile Include="Assets\z - Luis Folder\AbilityScript.cs" />
+    <Compile Include="Assets\z - Luis Folder\PauseMenu.cs" />
     <None Include="Assets\ScriptTemplates\51-Mirror__Network Authenticator-NewNetworkAuthenticator.cs.txt" />
     <None Include="Assets\ScriptTemplates\53-Mirror__Network Observer-NewNetworkObserver.cs.txt" />
     <None Include="Assets\ScriptTemplates\56-Mirror__Network Discovery-NewNetworkDiscovery.cs.txt" />
@@ -281,16 +282,16 @@
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.3.15f1/Editor/Data/Managed/UnityEditor.dll</HintPath>
     </Reference>
     <Reference Include="Mono.CecilX">
-      <HintPath>C:/Users/Curti/Documents/UnityProjects/PleaseWork/Assets/Mirror/Plugins/Mono.Cecil/Mono.CecilX.dll</HintPath>
+      <HintPath>H:/Everything/Documents/[Work and Stuff/Projects/HexGame/Assets/Mirror/Plugins/Mono.Cecil/Mono.CecilX.dll</HintPath>
     </Reference>
     <Reference Include="Mono.CecilX.Mdb">
-      <HintPath>C:/Users/Curti/Documents/UnityProjects/PleaseWork/Assets/Mirror/Plugins/Mono.Cecil/Mono.CecilX.Mdb.dll</HintPath>
+      <HintPath>H:/Everything/Documents/[Work and Stuff/Projects/HexGame/Assets/Mirror/Plugins/Mono.Cecil/Mono.CecilX.Mdb.dll</HintPath>
     </Reference>
     <Reference Include="Mono.CecilX.Pdb">
-      <HintPath>C:/Users/Curti/Documents/UnityProjects/PleaseWork/Assets/Mirror/Plugins/Mono.Cecil/Mono.CecilX.Pdb.dll</HintPath>
+      <HintPath>H:/Everything/Documents/[Work and Stuff/Projects/HexGame/Assets/Mirror/Plugins/Mono.Cecil/Mono.CecilX.Pdb.dll</HintPath>
     </Reference>
     <Reference Include="Mono.CecilX.Rocks">
-      <HintPath>C:/Users/Curti/Documents/UnityProjects/PleaseWork/Assets/Mirror/Plugins/Mono.Cecil/Mono.CecilX.Rocks.dll</HintPath>
+      <HintPath>H:/Everything/Documents/[Work and Stuff/Projects/HexGame/Assets/Mirror/Plugins/Mono.Cecil/Mono.CecilX.Rocks.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.3.15f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/mscorlib.dll</HintPath>
@@ -647,64 +648,64 @@
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.3.15f1/Editor/Data/MonoBleedingEdge/lib/mono/unityscript/Boo.Lang.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Timeline.Editor">
-      <HintPath>C:/Users/Curti/Documents/UnityProjects/PleaseWork/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
+      <HintPath>H:/Everything/Documents/[Work and Stuff/Projects/HexGame/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VSCode.Editor">
-      <HintPath>C:/Users/Curti/Documents/UnityProjects/PleaseWork/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
+      <HintPath>H:/Everything/Documents/[Work and Stuff/Projects/HexGame/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
-      <HintPath>C:/Users/Curti/Documents/UnityProjects/PleaseWork/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+      <HintPath>H:/Everything/Documents/[Work and Stuff/Projects/HexGame/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
-      <HintPath>C:/Users/Curti/Documents/UnityProjects/PleaseWork/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
+      <HintPath>H:/Everything/Documents/[Work and Stuff/Projects/HexGame/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Timeline">
-      <HintPath>C:/Users/Curti/Documents/UnityProjects/PleaseWork/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
+      <HintPath>H:/Everything/Documents/[Work and Stuff/Projects/HexGame/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
     </Reference>
     <Reference Include="Unity.CollabProxy.Editor">
-      <HintPath>C:/Users/Curti/Documents/UnityProjects/PleaseWork/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
+      <HintPath>H:/Everything/Documents/[Work and Stuff/Projects/HexGame/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Rider.Editor">
-      <HintPath>C:/Users/Curti/Documents/UnityProjects/PleaseWork/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
+      <HintPath>H:/Everything/Documents/[Work and Stuff/Projects/HexGame/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro">
-      <HintPath>C:/Users/Curti/Documents/UnityProjects/PleaseWork/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+      <HintPath>H:/Everything/Documents/[Work and Stuff/Projects/HexGame/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.UI">
-      <HintPath>C:/Users/Curti/Documents/UnityProjects/PleaseWork/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
+      <HintPath>H:/Everything/Documents/[Work and Stuff/Projects/HexGame/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Mirror.Weaver.csproj">
-      <Project>{7E57C77E-4AA2-C3BA-6A08-01B267525C3A}</Project>
+      <Project>{F91299C7-03B2-C432-9287-9A81D06ED3E4}</Project>
       <Name>Mirror.Weaver</Name>
     </ProjectReference>
     <ProjectReference Include="Mirror.Authenticators.csproj">
-      <Project>{FF59F9C3-2DB2-C1C7-9C69-27942E5144F2}</Project>
+      <Project>{51A90BAB-570C-86F9-0666-F81CA4BE051A}</Project>
       <Name>Mirror.Authenticators</Name>
     </ProjectReference>
     <ProjectReference Include="Mirror.Components.csproj">
-      <Project>{FD751FFD-EEE5-F9BA-15C1-4F20AB2F0D96}</Project>
+      <Project>{B4B2882D-00E3-212B-FF1F-C427B1688AF0}</Project>
       <Name>Mirror.Components</Name>
     </ProjectReference>
     <ProjectReference Include="Mirror.Examples.csproj">
-      <Project>{3EEC9F7C-DE1B-48D1-38CF-8DA222A801B4}</Project>
+      <Project>{5F35DEB4-FA41-089D-9206-9987E2F4D67D}</Project>
       <Name>Mirror.Examples</Name>
     </ProjectReference>
     <ProjectReference Include="Mirror.CompilerSymbols.csproj">
-      <Project>{936CE39D-245A-CB28-31FB-209E3135C166}</Project>
+      <Project>{F9C592FE-A565-381B-B887-997A8ADD3121}</Project>
       <Name>Mirror.CompilerSymbols</Name>
     </ProjectReference>
     <ProjectReference Include="Ninja.WebSockets.csproj">
-      <Project>{A2B6C29B-9D4A-1A87-3439-48F7618F5014}</Project>
+      <Project>{12A67E87-174A-FD21-274B-116601BE3308}</Project>
       <Name>Ninja.WebSockets</Name>
     </ProjectReference>
     <ProjectReference Include="Mirror.csproj">
-      <Project>{B75A2BAD-D720-8038-CCA3-9E445F8364B9}</Project>
+      <Project>{8F38ED1A-9D5E-EF60-65A6-7C77CEE0EB34}</Project>
       <Name>Mirror</Name>
     </ProjectReference>
     <ProjectReference Include="Mirror.Editor.csproj">
-      <Project>{BBB723D3-DCDA-F71C-E91F-5B16A44131A6}</Project>
+      <Project>{89A0BFDF-2808-C920-45A5-89B6BEBC1240}</Project>
       <Name>Mirror.Editor</Name>
     </ProjectReference>
   </ItemGroup>
