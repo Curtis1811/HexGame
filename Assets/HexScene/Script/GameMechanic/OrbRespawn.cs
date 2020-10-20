@@ -15,11 +15,6 @@ public class OrbRespawn : NetworkBehaviour {
     [SyncVar]
     int random;
 
-    private void Start()
-    {
-        
-        
-    }
 
     public override void OnStartServer()
     {
@@ -32,7 +27,6 @@ public class OrbRespawn : NetworkBehaviour {
     [Server]
     public void Update()
     {
-
         RpcSpwnOrb();
     }
 
@@ -43,19 +37,23 @@ public class OrbRespawn : NetworkBehaviour {
         
         if (GameObject.FindWithTag("Orb") == null)
         {
-            random = Random.Range(0, 4);
-            
-            
+            random = Random.Range(0, 4);            
             GameObject orbInstance = Instantiate(orb, spawnpoint[random].GetComponentInChildren<Transform>().transform.position, Quaternion.identity);
             ClientScene.RegisterPrefab(orbInstance);
-
+            
             //orbInstance.AddComponent<NetworkTransform>();
             NetworkServer.Spawn(orbInstance);
-            
-        }
 
+
+        }
+        
 
     }
 
+    [Server]
+    public void SendClientPosition(Vector3 Pos)
+    {
+        
+    }
    
 }

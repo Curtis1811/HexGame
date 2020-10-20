@@ -18,17 +18,13 @@ public class GroundDissapering : NetworkBehaviour
 
     [SerializeField] GameObject HexPrefab;
     [SerializeField] List<GameObject> HexPrefabList = new List<GameObject>();
-
-
     [SerializeField] List<GameObject> hex;
-
     [SerializeField] GameObject[] SolidGround;
 
     [SyncVar]
     [SerializeField] int storedRand;
 
     float time;
-
 
     public override void OnStartServer()
     {
@@ -123,14 +119,16 @@ public class GroundDissapering : NetworkBehaviour
 
     [ClientRpc]
     void RpcChangeColor()
-        {
-       
+    {
 
-        if (HexPrefabList[storedRand].gameObject.GetComponent<Renderer>().material.color != Color.red)
+        if (HexPrefabList.Count >= 1) { 
+            if (HexPrefabList[storedRand].gameObject.GetComponent<Renderer>().material.color != Color.red)
             {
                 HexPrefabList[storedRand].gameObject.GetComponent<Renderer>().material.color = Color.red;
 
             }
+        }
+        
            
         }
 
@@ -148,9 +146,6 @@ public class GroundDissapering : NetworkBehaviour
     }
 
 
-  
-
-
     [ClientRpc]
     public void RpcSpawnHex()
     {
@@ -162,7 +157,7 @@ public class GroundDissapering : NetworkBehaviour
             NetworkServer.Spawn(go);
             HexPrefabList.Add(go);
             HexPrefabList[HexPrefabList.Count-1].transform.position += new Vector3(HexPrefabList.Count, HexPrefabList.Count, HexPrefabList.Count);
-            Debug.Log("Pog");
+            //Debug.Log("Pog");
         }
         int rand = Random.Range(0, HexPrefabList.Count);
         storedRand = rand;
@@ -185,6 +180,7 @@ public class GroundDissapering : NetworkBehaviour
 
     }
 
+    [Server]
     public void CmdSpawnHex() {
         RpcSpawnHex();
     }

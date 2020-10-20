@@ -1,19 +1,21 @@
 ﻿using Microsoft.Win32;
-using Mono.CecilX;
+//using Mono.CecilX;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 
 //here we will have function delaget to take in the right Abilites to use.
-public class Pyromancer : PyromancerHandler
+public class Pyromancer : MonoBehaviour//PyromancerHandler
 {
+    string[] abil = new string[4];
     [TextArea(10, 30)]
     public string discription = "Fire is good and strong yes!";
     public new string name = "Pyromancer";
 
     public GameObject fireballPrefab;
     public List<string> AbilityNames;
+    
     // Start is called before the first frame update
     
      // This will be assigned based on what Abilites are Selected
@@ -25,16 +27,16 @@ public class Pyromancer : PyromancerHandler
 
     void Start()
     {
-        KeyAssinging(PyromancerChosenList);
+       //KeyAssinging(PyromancerChosenList);
     }
 
     // Update is called once per frame
     void Update()
     {  
-        keyChecker();
+        //keyChecker();
     }
 
-
+    /*
     public void keyChecker()
     {
         if (Input.GetKeyDown(KeyCode.Mouse0))
@@ -66,7 +68,7 @@ public class Pyromancer : PyromancerHandler
       GameObject fireBall =  Instantiate<GameObject>(Fireball);
       fireBall.AddComponent<FireBall>();
     }
-
+    */
      
 
 }
