@@ -14,7 +14,6 @@ public class PlayerMovement : NetworkBehaviour
     bool isAlive;
     bool isReady;
 
-
     void Start() {
         //playerCamera = Camera.main;
     }
@@ -22,10 +21,10 @@ public class PlayerMovement : NetworkBehaviour
 	//Update is called once per frame
 	[Client]
     void Update () {
-
+        
         if (!hasAuthority)
         return;
-
+        
         movement();
         faceMouse();
 
@@ -57,7 +56,7 @@ public class PlayerMovement : NetworkBehaviour
             {
                 this.transform.position += new Vector3(0, 0, 5) * Time.deltaTime * scaler;
             }
-        }
+    }
     
     void faceMouse()
     {

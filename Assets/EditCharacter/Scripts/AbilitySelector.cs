@@ -43,7 +43,7 @@ public class AbilitySelector : MonoBehaviour
                 AbilityList = Resources.LoadAll<Abilities>("Abilities/Pyromancer").ToList<Abilities>();
             break;
             case 2:
-                //WaterList = Resources.LoadAll<Waterabilities>("Abilities/Hydromancer").ToList();
+                AbilityList = Resources.LoadAll<Abilities>("Abilities/Hydromancer").ToList<Abilities>();
                 break;
             case 3:
                 //AirList = Resources.LoadAll<Aireabilities>("Abilities/Aeromancer").ToList(); 

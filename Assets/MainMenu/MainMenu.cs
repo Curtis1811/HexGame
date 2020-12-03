@@ -40,6 +40,7 @@ public class MainMenu : MonoBehaviour
         SceneManager.LoadScene("MainMenu");
     }
 
+ 
     //This the menu to send the correct class to AbilitySelector
     public void OnPointerCharacterClassSelector(GameObject Class)
     {
@@ -58,7 +59,10 @@ public class MainMenu : MonoBehaviour
                 AbilitySelectorPointer.characterClass = 3;
                 Debug.Log("Areomancer");
                 break;
-
+            case "Geomancer":
+                AbilitySelectorPointer.characterClass = 4;
+                Debug.Log("Geomancer");
+                break;
         }
         
     }

@@ -8,7 +8,6 @@ using UnityEngine;
 public class PyromancerHandler : MonoBehaviour
 {
     public string[] abilityData = new string[4];
-    public int test;
     public PyromancerHandler(string[] AbilityData)
     {
         this.abilityData = AbilityData;
@@ -32,7 +31,6 @@ public class PyromancerHandler : MonoBehaviour
     private void Start()
     {        
         LoadResources();
-        //loadData();
     }
 
     public void loadDataFromServer(string[]AbilityData)

@@ -40,7 +40,7 @@ public class Classes : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.Keypad4))
         {
-
+            ClassString = "Geomancer";
         }
 
     }

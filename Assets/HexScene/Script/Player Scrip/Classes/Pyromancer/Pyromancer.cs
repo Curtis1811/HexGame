@@ -15,16 +15,19 @@ public class Pyromancer : MonoBehaviour//PyromancerHandler
 
     public GameObject fireballPrefab;
     public List<string> AbilityNames;
-    
+
     // Start is called before the first frame update
-    
-     // This will be assigned based on what Abilites are Selected
-    
+
+    // This will be assigned based on what Abilites are Selected
+
     //Change this to have its own Class that other classes can use as a tempalte.
 
     //This will need to gain the .txt data on load and recieve the data to use.
-   
 
+    private void Awake()
+    {
+        this.gameObject.AddComponent<PyromancerHandler>();
+    }
     void Start()
     {
        //KeyAssinging(PyromancerChosenList);

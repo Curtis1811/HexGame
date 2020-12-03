@@ -16,8 +16,8 @@ public class JoinLobby : NetworkBehaviour
     public delegate void GetData(int tempInt, string[] tempString);
     public event GetData data;
     
-
-    private void OnEnable()
+   
+    private void  OnClient()
     {
         PlayerData pb = SaveData.loadData();
         networkmanager.GameIsReady += Event_GameIsReady;
@@ -30,7 +30,6 @@ public class JoinLobby : NetworkBehaviour
         PlayerData pb = SaveData.loadData();
         data?.Invoke(pb.Class, pb.SaveAbilites);
         Debug.Log("PlayersHaveJoinedGameIsReady " + con.address);
-        
     }
 
     private void getPlayerData()

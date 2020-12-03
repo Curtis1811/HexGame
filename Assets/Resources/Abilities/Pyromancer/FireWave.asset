@@ -15,9 +15,8 @@ MonoBehaviour:
   name: FireWave
   icon: {fileID: 0}
   isDefaultAbility: 0
-  Key: 0
   type: 0
-  discription: 
+  discription: I liek fire :)
   prefabName: 
   coolDown: 0
   kockback: 2

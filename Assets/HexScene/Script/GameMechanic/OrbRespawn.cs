@@ -34,7 +34,6 @@ public class OrbRespawn : NetworkBehaviour {
     [ClientRpc]
     public void RpcSpwnOrb()
     {
-        
         if (GameObject.FindWithTag("Orb") == null)
         {
             random = Random.Range(0, 4);            
@@ -43,12 +42,9 @@ public class OrbRespawn : NetworkBehaviour {
             
             //orbInstance.AddComponent<NetworkTransform>();
             NetworkServer.Spawn(orbInstance);
-
-
         }
-        
-
     }
+
 
     [Server]
     public void SendClientPosition(Vector3 Pos)
