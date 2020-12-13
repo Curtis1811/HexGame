@@ -10,15 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cf3e5f14dc725774d8c76ee14ebe8060, type: 3}
-  m_Name: FireWave
+  m_Name: ChingChoing
   m_EditorClassIdentifier: 
-  name: FireWave
+  name: Chinchin
   icon: {fileID: 0}
   isDefaultAbility: 0
   type: 0
-  discription: I liek fire :)
+  discription: 'This a fat ability
+
+'
   prefabName: 
-  coolDown: 0
-  kockback: 2
+  coolDown: 3
+  kockback: 0
   dot: 0
   damage: 0

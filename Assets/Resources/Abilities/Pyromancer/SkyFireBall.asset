@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cf3e5f14dc725774d8c76ee14ebe8060, type: 3}
-  m_Name: FireAbilities
+  m_Name: SkyFireBall
   m_EditorClassIdentifier: 
-  name: R-Ability
+  name: SkyFireBall
   icon: {fileID: 0}
   isDefaultAbility: 0
-  Key: 0
   type: 0
-  discription: 
-  prefabName: 
+  discription: This fireball drops from the sky and rolls and short distance. The
+    center Deals more Dmg.
+  prefabName: SkyFireBall
   coolDown: 0
-  kockback: 0
+  kockback: 2
   dot: 0
   damage: 0

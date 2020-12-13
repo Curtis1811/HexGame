@@ -67,12 +67,10 @@ public class AbilitySelector : MonoBehaviour
         if (SelectedList.Find(x => x.name == Data.selectedObject.name) == null)
         {
             SelectedList.Add(AbilityList.Find(x => x.name == Data.selectedObject.name));
-            
         }
         else
         {
-            SelectedList.Remove(AbilityList.Find(x => x.name == Data.selectedObject.name));
-            
+            SelectedList.Remove(AbilityList.Find(x => x.name == Data.selectedObject.name));    
         }
 
         //SelectedList.Add(AbilityList.Find(x => x.name == Data.selectedObject.name));

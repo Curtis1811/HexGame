@@ -130,7 +130,7 @@ public class GroundDissapering : NetworkBehaviour
         }
         
            
-        }
+    }
 
     
     void SolidGroundColor()

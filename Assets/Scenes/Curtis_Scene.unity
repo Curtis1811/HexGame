@@ -221,6 +221,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e17728e0d7310d6458662527768e82fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
 --- !u!114 &38803084
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1387,14 +1389,14 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 842294609}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 35b149c6c39cb4f4aa677cc227b104fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   abilityData: []
-  test: 0
   FireList: []
+  PyromancerGameObjectPrefabs: []
   PyromancerChosenList: []
 --- !u!4 &907845000 stripped
 Transform:
@@ -2017,6 +2019,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1660129881}
+  - component: {fileID: 1660129882}
   m_Layer: 0
   m_Name: PlayerSpawn
   m_TagString: Untagged
@@ -2032,12 +2035,24 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1660129880}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.13, y: 3.82, z: 3.5}
+  m_LocalPosition: {x: -3, y: 4, z: 3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2089747430}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1660129882
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1660129880}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41f84591ce72545258ea98cb7518d8b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1668814676
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2488,7 +2503,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dontDestroyOnLoad: 1
   runInBackground: 1
-  startOnHeadless: 1
+  startOnHeadless: 0
   showDebugMessages: 0
   serverTickRate: 30
   offlineScene: 
@@ -2499,16 +2514,22 @@ MonoBehaviour:
   disconnectInactiveConnections: 0
   disconnectInactiveTimeout: 60
   authenticator: {fileID: 0}
-  playerPrefab: {fileID: 8049704082622753196, guid: 7e6795c0e1dab184f896eb37a75a32af,
+  playerPrefab: {fileID: 8049704082622753196, guid: e104654a630cfe44eae05a55a02adc72,
     type: 3}
   autoCreatePlayer: 0
-  playerSpawnMethod: 0
+  playerSpawnMethod: 1
   spawnPrefabs:
   - {fileID: 398063249019724324, guid: 5a7f58b062bfede418b474f696af38fe, type: 3}
   - {fileID: 7420761230213153193, guid: de14f4b5056968147889c68c3de12cc8, type: 3}
+  - {fileID: 1699156537710332, guid: 698f84f781248324597a4c81334d5f58, type: 3}
+  - {fileID: 8049704082622753196, guid: e104654a630cfe44eae05a55a02adc72, type: 3}
+  - {fileID: 8049704082622753196, guid: 6684939257f94bc479dc36557b439ffa, type: 3}
+  - {fileID: 8049704082622753196, guid: 7e6795c0e1dab184f896eb37a75a32af, type: 3}
+  - {fileID: 8049704082622753196, guid: 1f38ef5878638514a83803bce9dd05b9, type: 3}
   playerSpawn: {fileID: 1660129881}
+  pyromancer: {fileID: 8049704082622753196, guid: e104654a630cfe44eae05a55a02adc72,
+    type: 3}
   LobbyScene: 
-  evnt: {fileID: 38803083}
   tempInt: 0
   tempString:
   - 

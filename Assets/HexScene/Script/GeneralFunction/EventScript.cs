@@ -6,7 +6,7 @@ using Mirror;
 
 public class EventScript : NetworkBehaviour
 {
-
+    //The messagges will eventually be moved to a lobby system
     public delegate void GetData(int tempInt ,string []tempString);
     public event GetData data;
 
@@ -23,38 +23,41 @@ public class EventScript : NetworkBehaviour
         Debug.Log("Running");
     }
 
-    /* 
-    public override void OnStartClient()
-    {
-        base.OnStartClient();
-        PlayerData pd = SaveData.loadData();
-        SendThisToServer(pd.Class, pd.SaveAbilites);
 
-        Debug.Log("Running");
-        //data?.Invoke(pd.Class, pd.SaveAbilites);
-    }
 
-    
-    
-
+ /* 
     public override void OnStartAuthority()
     {
         base.OnStartAuthority();
         PlayerData pd = SaveData.loadData();
         SendThisToServer(pd.Class, pd.SaveAbilites);
+        Debug.Log("Running");
     }
 
-    public override void OnStartClient()
-    {
-        base.OnStartClient();
-        PlayerData pd = SaveData.loadData();
-        SendThisToServer(pd.Class,pd.SaveAbilites);
+     
+         public override void OnStartClient()
+       {
+          // base.OnStartClient();
+           PlayerData pd = SaveData.loadData();
+           SendThisToServer(pd.Class, pd.SaveAbilites);
+
+           Debug.Log("Running");
+           //data?.Invoke(pd.Class, pd.SaveAbilites);
+       }
+
+    
+
+       public override void OnStartClient()
+       {
+           base.OnStartClient();
+           PlayerData pd = SaveData.loadData();
+           SendThisToServer(pd.Class,pd.SaveAbilites);
 
 
-        //CmdPlayerData(pd.Class, pd.SaveAbilites);
+           //CmdPlayerData(pd.Class, pd.SaveAbilites);
 
-        Debug.Log("Running");
-    }*/
+           Debug.Log("Running");
+       }*/
     /*public override void OnStartAuthority()
     {
         base.OnStartAuthority();
@@ -91,7 +94,7 @@ public class EventScript : NetworkBehaviour
         lol.Class = tempInt;
         NetworkClient.Send<Notification>(lol);
         
-        Debug.Log("Data Has Been Sent " + tempString[0] + " " + tempInt );
+        //Debug.Log("Data Has Been Sent " + tempString[0] + " " + tempInt );
     }
 }
 
