@@ -50,8 +50,6 @@ public class Pyromancer : NetworkBehaviour//MonoBehaviour//PyromancerHandler
     [Client]
     public void keyChecker()
     {
-        
-
         if (isLocalPlayer) { 
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {

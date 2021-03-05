@@ -9,11 +9,8 @@ public class FireBall : NetworkBehaviour
     //This may have to be changed to Scripable Objects
     Vector3 ProjectileDirection;
     Ray ray; 
-    
     public float timer;
     
-
-
     // Start is called before the first frame update
     void Start()
     {
@@ -37,15 +34,10 @@ public class FireBall : NetworkBehaviour
 
         if (isClient)
         {
-
             CmdMoveToMouse(ProjectileDirection);
             CmdDespawnFireBall();
-
-
         }
-        
-        
-        
+                
         //MoveToMouse(ProjectileDirection);
     }
 
@@ -83,17 +75,7 @@ public class FireBall : NetworkBehaviour
 
     }
 
-
-    public void MoveToMouse(Vector3 Direction)
-    {
-        //Normalizing we get the distrance We can add a scaler on top of it.
-        this.transform.Translate(new Vector3(Direction.x, 0, Direction.y), Space.World);
-        Debug.Log(Direction);
-    }
-
     #endregion
-
-
 
 
     #region Server
