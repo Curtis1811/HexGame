@@ -15,16 +15,18 @@ public class PlayerMovement : NetworkBehaviour
     bool isReady;
 
 
-    void Start() {
+    void Start()
+    {
         //playerCamera = Camera.main;
     }
 	
 	//Update is called once per frame
-	[Client]
+	// [Client]
     void Update () {
 
-        if (!hasAuthority)
+       /* if (!hasAuthority)
         return;
+        */
 
         movement();
         faceMouse();
