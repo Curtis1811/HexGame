@@ -950,6 +950,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ea7a7884c043d845b06d7dfa511868c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cursorTextureArray:
+  - {fileID: 2800000, guid: 081449e109553d44f9812a836bde84f7, type: 3}
+  - {fileID: 2800000, guid: c59088ddc57ef664cb59e27b8827bda9, type: 3}
+  - {fileID: 2800000, guid: 64be02961a721bb46af7ab01b55de3ab, type: 3}
+  - {fileID: 2800000, guid: 51d05eecf4d020841aaa0ce8a107b6b0, type: 3}
+  - {fileID: 2800000, guid: 64be02961a721bb46af7ab01b55de3ab, type: 3}
+  - {fileID: 2800000, guid: c59088ddc57ef664cb59e27b8827bda9, type: 3}
+  frameCount: 6
+  frameRate: 0.5
   pauseMenuUi: {fileID: 212742995}
 --- !u!1 &1249795574
 GameObject:

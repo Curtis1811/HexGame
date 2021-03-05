@@ -18,14 +18,11 @@ public class AbilityScript : MonoBehaviour
     public float cooldown2 = 10;
     bool isCooldown2 = false;
     public KeyCode ability2;
-
-
-
+        
     void Start()
     {
         abilityImage1.fillAmount = 0;
         abilityImage2.fillAmount = 0;
-
     }
 
     // Update is called once per frame
@@ -40,65 +37,45 @@ public class AbilityScript : MonoBehaviour
 
         if (Input.GetKey(ability1) && isCooldown1 == false)
         {
-
             isCooldown1 = true;
             abilityImage1.fillAmount = 1;
-
         }
 
         if (isCooldown1)
         {
-
             abilityImage1.fillAmount -= 1 / cooldown1 * Time.deltaTime;
 
             if (abilityImage1.fillAmount <= 0)
             {
-
                 abilityImage1.fillAmount = 0;
                 isCooldown1 = false;
-
             }
-
-
+            
         }
-
-
+        
     }
 
     void Ability2()
     {
-
         if (Input.GetKey(ability2) && isCooldown2 == false)
         {
-
             isCooldown2 = true;
             abilityImage2.fillAmount = 1;
-
         }
 
         if (isCooldown2)
         {
-
             abilityImage2.fillAmount -= 1 / cooldown2 * Time.deltaTime;
 
             if (abilityImage2.fillAmount <= 0)
             {
-
                 abilityImage2.fillAmount = 0;
                 isCooldown2 = false;
-
             }
-
 
         }
 
-
     }
-
-
-
-
-
 
 }
 
