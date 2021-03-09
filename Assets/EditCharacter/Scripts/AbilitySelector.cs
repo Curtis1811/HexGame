@@ -43,7 +43,7 @@ public class AbilitySelector : MonoBehaviour
                 AbilityList = Resources.LoadAll<Abilities>("Abilities/Pyromancer").ToList<Abilities>();
             break;
             case 2:
-                //WaterList = Resources.LoadAll<Waterabilities>("Abilities/Hydromancer").ToList();
+                AbilityList = Resources.LoadAll<Abilities>("Abilities/Hydromancer").ToList<Abilities>();
                 break;
             case 3:
                 //AirList = Resources.LoadAll<Aireabilities>("Abilities/Aeromancer").ToList(); 
@@ -67,12 +67,10 @@ public class AbilitySelector : MonoBehaviour
         if (SelectedList.Find(x => x.name == Data.selectedObject.name) == null)
         {
             SelectedList.Add(AbilityList.Find(x => x.name == Data.selectedObject.name));
-            
         }
         else
         {
-            SelectedList.Remove(AbilityList.Find(x => x.name == Data.selectedObject.name));
-            
+            SelectedList.Remove(AbilityList.Find(x => x.name == Data.selectedObject.name));    
         }
 
         //SelectedList.Add(AbilityList.Find(x => x.name == Data.selectedObject.name));

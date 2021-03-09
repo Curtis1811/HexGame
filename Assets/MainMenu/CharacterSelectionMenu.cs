@@ -1,51 +1,28 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Security.Policy;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.EventSystems;
-using System.Runtime.CompilerServices;
 
-public class MainMenu : MonoBehaviour
+public class CharacterSelectionMenu : MonoBehaviour
 {
+
     AbilitySelector AbilitySelectorPointer;
     public GameObject PyromancerUI;
-    
+
     // Start is called before the first frame update
-    private void Start()
-    {
-        AbilitySelectorPointer = this.gameObject.GetComponent<AbilitySelector>();
-    }
-
-    public void play()
-    {
-        SceneManager.LoadScene("Curtis_Scene");
-        //SceneManager.LoadScene("Game");
-        //Create this into a lobby Manager
-    }
-
-    public void exitGame()
-    {
-        Application.Quit();
-    }
-
-    public void CharacterManager()
-    {
-        SceneManager.LoadScene("CharacterEdit");
-
-    }
-
-    public void BackToMain()
+    void Start()
     {
         
-        SceneManager.LoadScene("MainMenu");
     }
 
- 
-    //This the menu to send the correct class to AbilitySelector
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+
     public void OnPointerCharacterClassSelector(GameObject Class)
     {
-       
+
         switch (Class.name)//.ToString()
         {
             case "Pyromancer":
@@ -65,7 +42,6 @@ public class MainMenu : MonoBehaviour
                 Debug.Log("Geomancer");
                 break;
         }
-        
-    }
 
+    }
 }

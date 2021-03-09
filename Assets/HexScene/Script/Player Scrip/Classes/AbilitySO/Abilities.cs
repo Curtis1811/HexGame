@@ -15,13 +15,13 @@ public abstract class Abilities : ScriptableObject
 {
 
     // This is the name of the ability
-    [SerializeField] new private string name = "New Ability";
+    [SerializeField] new private string name;
 
     // This is the sprite of the Ability icons
-    [SerializeField] private Sprite icon = null;
+    [SerializeField] private Sprite icon;
 
     // This is to decide if the Ability is default or not
-    [SerializeField] public bool isDefaultAbility = false;
+    [SerializeField] public bool isDefaultAbility;
    
     //Type of Ability
     [SerializeField] public abilityType type;
@@ -29,9 +29,9 @@ public abstract class Abilities : ScriptableObject
     // Discription
     [TextArea(15, 20)]
     [SerializeField] private string discription;
-
-    [SerializeField] private string prefabName;
+    [SerializeField] private string prefabName; // Maybe Obsolete
     [SerializeField] private float coolDown;
+    //We will need some kind of Effect Visual Object
 
     //These 
     
@@ -44,10 +44,5 @@ public abstract class Abilities : ScriptableObject
     public string PrefabName => prefabName;
     public float CoolDown => coolDown;
     
-    
-
-
-
-
 
 }

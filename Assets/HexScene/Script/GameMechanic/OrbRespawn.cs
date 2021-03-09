@@ -10,8 +10,6 @@ public class OrbRespawn : NetworkBehaviour {
     [SerializeField] GameObject orb;    
     [SerializeField] List<GameObject> spawnpoint = new List<GameObject>();
 
-    
-
     [SyncVar]
     int random;
 
@@ -34,21 +32,16 @@ public class OrbRespawn : NetworkBehaviour {
     [ClientRpc]
     public void RpcSpwnOrb()
     {
-        
         if (GameObject.FindWithTag("Orb") == null)
         {
             random = Random.Range(0, 4);            
             GameObject orbInstance = Instantiate(orb, spawnpoint[random].GetComponentInChildren<Transform>().transform.position, Quaternion.identity);
             ClientScene.RegisterPrefab(orbInstance);
-            
             //orbInstance.AddComponent<NetworkTransform>();
             NetworkServer.Spawn(orbInstance);
-
-
         }
-        
-
     }
+
 
     [Server]
     public void SendClientPosition(Vector3 Pos)

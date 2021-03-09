@@ -10,16 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cf3e5f14dc725774d8c76ee14ebe8060, type: 3}
-  m_Name: Test
+  m_Name: AdrenalineBoost
   m_EditorClassIdentifier: 
-  name: 
-  icon: {fileID: 21300006, guid: 9ba453ff7c6124209b57da4cd176d458, type: 3}
+  name: AdrenalineBoost
+  icon: {fileID: 0}
   isDefaultAbility: 0
-  Key: 0
   type: 0
-  discription: Test
-  prefabName: Test
-  coolDown: 2
-  kockback: 2
-  dot: 2
-  damage: 2
+  discription: Adrenaline Boost increases your speed for a short Duration.
+  prefabName: AdrenalineBoost
+  coolDown: 0
+  kockback: 0
+  dot: 0
+  damage: 0

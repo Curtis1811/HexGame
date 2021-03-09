@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cf3e5f14dc725774d8c76ee14ebe8060, type: 3}
-  m_Name: FireBall
+  m_Name: Meteor
   m_EditorClassIdentifier: 
-  name: FireBall
-  icon: {fileID: 0}
+  name: Meteor
+  icon: {fileID: 21300006, guid: 9ba453ff7c6124209b57da4cd176d458, type: 3}
   isDefaultAbility: 0
   type: 0
-  discription: Standard Fireball that will knock back and deal damage
-  prefabName: FireBall
-  coolDown: 0
+  discription: This is a large meteor that will destroy Hex's
+  prefabName: Meteor
+  coolDown: 2
   kockback: 2
-  dot: 0
-  damage: 0
+  dot: 2
+  damage: 2
