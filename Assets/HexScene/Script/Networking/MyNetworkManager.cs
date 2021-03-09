@@ -11,19 +11,19 @@ using UnityEngine.AI;
 
 [AddComponentMenu("")]
 public class MyNetworkManager : NetworkManager
-{
-    GameObject orb;
-   
+{   
     public Transform playerSpawn;
     public static GameObject[] SpawnPoint = new GameObject[4];
     public delegate GameObject SpawnDelegate(Vector3 Pos, System.Guid assetID);
-    public delegate void UnspawnDelegate(GameObject spawned);
-    private List<int> PlayerID;
+    public SpawnDelegate onSpawnDelegate;
 
+    public delegate void UnspawnDelegate(GameObject spawned);
+    public UnspawnDelegate onUnsoawnDelegate;
+   
+    private List<int> PlayerID;
     public GameObject pyromancer;
 
     //EventScript evs;
-    
     [Scene] [SerializeField] public string LobbyScene = string.Empty;
 
     //public EventScript evnt;
@@ -111,12 +111,10 @@ public class MyNetworkManager : NetworkManager
         switch (tempInt)
         {
             case 1:
-                
                 player = Instantiate(pyromancer, playerSpawn);
                 player.GetComponent<PyromancerHandler>().abilityData = tempString;
                 ClientScene.RegisterPrefab(player);
                 NetworkServer.AddPlayerForConnection(con, player);
-                
                 break;
             
             case 2:

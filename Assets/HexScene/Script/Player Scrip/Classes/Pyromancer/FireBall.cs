@@ -6,8 +6,9 @@ using Mirror;
 
 public class FireBall : NetworkBehaviour
 {
+    public Pyromancer pyromancer;
     //This may have to be changed to Scripable Objects
-    Vector3 ProjectileDirection;
+    public Vector3 ProjectileDirection;
     Ray ray; 
     public float timer;
     
@@ -17,27 +18,28 @@ public class FireBall : NetworkBehaviour
         ray = UnityEngine.Camera.main.ScreenPointToRay(Input.mousePosition);
         timer = Time.time;
         this.transform.position = GetComponent<Transform>().position;
-        ProjectileDirection = Input.mousePosition.normalized;
-
-        if (isLocalPlayer)
-            CmdSpawnFireBall();
+        
+        //if (isLocalPlayer)
 
     }
 
     // Update is called once per frame
     void Update()
-    {
+    { 
+        Vector3 targetPoint = ray.GetPoint(0);
+        ProjectileDirection = ProjectileDirection.normalized;
+        this.transform.Translate(ProjectileDirection.x, 0, ProjectileDirection.z, Space.World);
+        //This does work but we will need to add a new camera
+
         if (isServer) {
-
             RpcTimerDestroy();
-        }   
-
+            RpcUpdateFireBallPosition(this.transform.position);
+        }
         if (isClient)
         {
-            CmdMoveToMouse(ProjectileDirection);
-            CmdDespawnFireBall();
+            //CmdMoveToMouse(ProjectileDirection);
+            //CmdDespawnFireBall();
         }
-                
         //MoveToMouse(ProjectileDirection);
     }
 
@@ -48,31 +50,33 @@ public class FireBall : NetworkBehaviour
         Debug.Log("The Ability has hit");
     }
 
-    
+    public void setMousePosition(Vector3 mousePos)
+    {
+        //Vector3 aimDirection = mousePos - //player Transform.Position
+        //ProjectileDirection = mousePos;
+        //pyromancer.onMouseClick -= setMousePosition;
+        Debug.Log(mousePos);
+    }
+
 
     #region Client 
 
     [Command]   
     public void CmdMoveToMouse(Vector3 Direction)
     {
+        Debug.Log(Direction);
         //Normalizing we get the distrance We can add a scaler on top of it.
         this.transform.Translate(new Vector3(Direction.x, 0, Direction.y), Space.World);
+        //This updates the Position on the server Side.
         RpcUpdateFireBallPosition(this.transform.position);
-        Debug.Log(Direction);
+        
     }
 
-    [Command]
-    public void CmdSpawnFireBall()
-    {
-        NetworkServer.Spawn(this.gameObject);
-        Debug.Log("Gello");
-        RpcSpanwFireBall();
-    }
     [ClientRpc]
     public void RpcSpanwFireBall()
     {
-        ClientScene.RegisterPrefab(this.gameObject);
-
+        //ClientScene.RegisterPrefab(this.gameObject);
+        Debug.Log("RPC SpawnFireBall on Client Scene");
     }
 
     #endregion
@@ -94,11 +98,11 @@ public class FireBall : NetworkBehaviour
     [ServerCallback]
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log(other.tag);
         //NetworkServer.Destroy(this.gameObject);
         //ClientScene.UnregisterPrefab(this.gameObject);
         //Destroy(this.gameObject);
     }
-
 
     [ClientRpc]
     public void RpcUpdateFireBallPosition(Vector3 Location)
@@ -107,15 +111,15 @@ public class FireBall : NetworkBehaviour
             return;
 
         this.transform.position = Location;
+        //We will need to update all of the clients aswell
         //Here the Vector Direction And Add this to the clients 
     }
-    
-
     
     [Command]
     public void CmdDespawnFireBall()
     {
-        Destroy(this.gameObject);
+        Destroy(this.gameObject); 
+        ClientScene.UnregisterPrefab(this.gameObject);
     }
 
     [ClientRpc]
@@ -126,14 +130,11 @@ public class FireBall : NetworkBehaviour
             Debug.Log("boom");
             //Here I will have to remove the object from the client aswell
             NetworkServer.Destroy(this.gameObject);
-            ClientScene.UnregisterPrefab(this.gameObject);
             CmdDespawnFireBall();
             timer = Time.time;
         }
     }
 
     #endregion
-
     //Make a functioin to destroy after time.
-
 }

@@ -19,8 +19,9 @@ public class Pyromancer : NetworkBehaviour//MonoBehaviour//PyromancerHandler
 
     public List<string> AbilityNames;
     PyromancerHandler ph;
-    // Start is called before the first frame update
+       
 
+    
     // This will be assigned based on what Abilites are Selected
 
     //Change this to have its own Class that other classes can use as a tempalte.
@@ -29,7 +30,6 @@ public class Pyromancer : NetworkBehaviour//MonoBehaviour//PyromancerHandler
 
     private void Awake()
     {
-
         ph = GetComponent<PyromancerHandler>();
         //We will need to loop though some prefabs and assign them to the correct variables
     }
@@ -37,7 +37,6 @@ public class Pyromancer : NetworkBehaviour//MonoBehaviour//PyromancerHandler
     {
         fireballPrefab = ph.PyromancerGameObjectPrefabs.Find(x => x.name == "FireBall");
         //KeyAssinging(PyromancerChosenList);
-        
     }
 
     // Update is called once per frame
@@ -53,14 +52,14 @@ public class Pyromancer : NetworkBehaviour//MonoBehaviour//PyromancerHandler
         if (isLocalPlayer) { 
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
-                CmdFireball();                   
+                CmdFireball(this.gameObject.GetComponent<PlayerMovement>().targetPoint);                   
             }
             if (Input.GetKeyDown(KeyCode.Q))
             {
+                cmdFireWave();
                 Debug.Log("Firing");
                 Debug.Log(ph.PyromancerChosenList[1]);
             }
-                
             if (Input.GetKeyDown(KeyCode.E))
             {
                 Debug.Log(ph.PyromancerChosenList[2].name);
@@ -69,8 +68,6 @@ public class Pyromancer : NetworkBehaviour//MonoBehaviour//PyromancerHandler
             {
                 Debug.Log(ph.PyromancerChosenList[3].name);
             }
-
-            
         }
     }
 
@@ -80,23 +77,30 @@ public class Pyromancer : NetworkBehaviour//MonoBehaviour//PyromancerHandler
     }
 
     [ClientRpc]
-    public void RpcFireball(GameObject fireball) {
-       
+    public void RpcFireball(GameObject fireball) 
+    {
         
     }
 
     [Command]
-    public void CmdFireball()
+    public void CmdFireball(Vector3 MousePosition)
     {
         Vector3 SpawnPosition = GetComponent<PlayerMovement>().gameObject.transform.position;
         GameObject fireball = Instantiate(fireballPrefab, SpawnPosition, Quaternion.identity);
         RpcFireball(fireball);
+        fireball.GetComponent<FireBall>().pyromancer = this.gameObject.GetComponent<Pyromancer>();
+        fireball.GetComponent<FireBall>().ProjectileDirection = GetComponent<PlayerMovement>().targetPoint;
+        //This seems to work and spawns on the Client
         NetworkServer.Spawn(fireball);
         ClientScene.RegisterPrefab(fireball);
-        Debug.Log("CMD");
-       
+        Debug.Log("CMD FireBallRan");
+        
+    }
+
+    public void cmdFireWave()
+    {
+        Debug.Log("FireWave");
+        //Here wea re going to spawn the FireWave
     }
 
 }
-
-

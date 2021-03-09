@@ -28,7 +28,6 @@ public class OrbRespawn : NetworkBehaviour {
         RpcSpwnOrb();
     }
 
-
     [ClientRpc]
     public void RpcSpwnOrb()
     {

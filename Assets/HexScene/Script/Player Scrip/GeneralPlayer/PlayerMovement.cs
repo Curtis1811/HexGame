@@ -16,17 +16,18 @@ public class PlayerMovement : NetworkBehaviour
     bool isAlive;
     bool isReady;
 
+    public Vector3 targetPoint;
 
     private void Awake()
     {
-        health = 0;
+        health = 100;
         stamina = 100;
     }
+
     void Start() {
         //playerCamera = Camera.main;
+        playerCamera = GetComponent<Camera>();
     }
-
-   
 
     //Update is called once per frame
     [Client]
@@ -78,18 +79,39 @@ public class PlayerMovement : NetworkBehaviour
         Ray ray = UnityEngine.Camera.main.ScreenPointToRay(Input.mousePosition);
         //When Using Camera If you have a camera scrip you Must use unity engine infront of it
         //Debug.Log(ray.direction);
-        float hitDistance = 0f;
+        float hitDistance = 3f;
         if (PlayerPlane.Raycast(ray, out hitDistance))
         {
-            Vector3 targetPoint = ray.GetPoint(hitDistance);
+            targetPoint = ray.GetPoint(hitDistance);
             Quaternion targetRotation = Quaternion.LookRotation(targetPoint - transform.position);
             targetRotation.x = 0;
             targetRotation.z = 0;
-
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 7f * Time.deltaTime);
+            Debug.DrawLine(ray.origin, targetPoint,Color.red);
+
+            //This does work But we need to give the player a new camera
+            Debug.Log(targetPoint.x + " " + targetPoint.z);
         }
 
     }
+
+    //here we are doing to create some functions to get the mouse world Position Since all player objects will ahve a playmovements we can pass this to any class The player has
+    //May have to move this to Different classes. 
+    //WE are creating this here becasye we ahve a Face mouse Function that has data. 
+    public static Vector3 GetMouseWorldPosition()
+    {
+        Vector3 TempVec = GetMouseWorldPositionWithZ(Input.mousePosition, UnityEngine.Camera.main);
+        TempVec.y = 0;
+        return TempVec;
+    }
+    public static Vector3 GetMouseWorldPositionWithZ(Vector3 screenPosition, UnityEngine.Camera mainCamera)
+    {
+        Vector3 tempVec = mainCamera.ScreenToWorldPoint(screenPosition);
+        return tempVec;
+    }
+
+    
+
 
     [Command]// This is tp update the server Position
     void CmdUpdatePlayerPosition(Vector3 Location, Quaternion LocalRotation)
@@ -108,10 +130,5 @@ public class PlayerMovement : NetworkBehaviour
         transform.position = Location;
         transform.localRotation = LocalRotation;
     }
-
-
-
-    //Here we are going to add the playerClass when the player is spawned.
-
-    
+    //Here we are going to add the playerClass when the player is spawned.    
 }
