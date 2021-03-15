@@ -8,7 +8,8 @@ using UnityEngine;
 public enum abilityType{
     Fire,
     Water,
-    Air
+    Air,
+    Earth
 }
 
 public abstract class Abilities : ScriptableObject

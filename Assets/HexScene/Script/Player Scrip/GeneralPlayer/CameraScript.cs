@@ -2,16 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Camera : MonoBehaviour {
+public class CameraScript : MonoBehaviour {
 
     public Transform player;
-
     public float height;
 
 	// Use this for initialization
 	void Start () {
-        
 
+        //player = this.gameObject.GetComponent<GameObject>().transform;
     }
 	
 	// Update is called once per frame
@@ -22,6 +21,8 @@ public class Camera : MonoBehaviour {
         pos.y = player.position.y + height;
         pos.z = player.position.z;
         this.transform.position = pos;
+        this.transform.rotation = Quaternion.Euler(90,90,0);
+        //this.transform.rotation
 
-	}
+    }
 }

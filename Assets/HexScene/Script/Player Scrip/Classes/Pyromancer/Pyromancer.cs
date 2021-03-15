@@ -9,7 +9,7 @@ using Mirror;
 public class Pyromancer : NetworkBehaviour//MonoBehaviour//PyromancerHandler
 {
     string[] abil = new string[4];
-    [TextArea(10, 30)]
+    [TextArea(10, 30)]  
     public string discription = "Fire is good and strong yes!";
     public new string name = "Pyromancer";
 
@@ -19,9 +19,7 @@ public class Pyromancer : NetworkBehaviour//MonoBehaviour//PyromancerHandler
 
     public List<string> AbilityNames;
     PyromancerHandler ph;
-       
-
-    
+    NetworkConnection connection;
     // This will be assigned based on what Abilites are Selected
 
     //Change this to have its own Class that other classes can use as a tempalte.
@@ -31,6 +29,7 @@ public class Pyromancer : NetworkBehaviour//MonoBehaviour//PyromancerHandler
     private void Awake()
     {
         ph = GetComponent<PyromancerHandler>();
+        
         //We will need to loop though some prefabs and assign them to the correct variables
     }
     void Start()
@@ -87,14 +86,11 @@ public class Pyromancer : NetworkBehaviour//MonoBehaviour//PyromancerHandler
     {
         Vector3 SpawnPosition = GetComponent<PlayerMovement>().gameObject.transform.position;
         GameObject fireball = Instantiate(fireballPrefab, SpawnPosition, Quaternion.identity);
-        RpcFireball(fireball);
-        fireball.GetComponent<FireBall>().pyromancer = this.gameObject.GetComponent<Pyromancer>();
-        fireball.GetComponent<FireBall>().ProjectileDirection = GetComponent<PlayerMovement>().targetPoint;
+        fireball.GetComponent<FireBall>().ProjectileDirection = MousePosition;
         //This seems to work and spawns on the Client
-        NetworkServer.Spawn(fireball);
-        ClientScene.RegisterPrefab(fireball);
-        Debug.Log("CMD FireBallRan");
-        
+        NetworkServer.Spawn(fireball,this.gameObject);
+        //fireball.GetComponent<NetworkIdentity>().AssignClientAuthority(this.GetComponent<NetworkIdentity>().connectionToServer);
+        ClientScene.RegisterPrefab(fireball);        
     }
 
     public void cmdFireWave()

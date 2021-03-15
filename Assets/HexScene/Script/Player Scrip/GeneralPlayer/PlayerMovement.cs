@@ -3,11 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Networking;
 using System.Runtime.InteropServices;
+
 using Mirror;
+
+//MUST SORT OUT DIFFERETN CAMERAS TO FIX SHOOTING.
 
 public class PlayerMovement : NetworkBehaviour
 {
-    public Camera playerCamera;
+    public UnityEngine.Camera playerCamera;
+    public GameObject playerCameraGameObject;
+    public GameObject playerCameraGameObjectReferance;
     public int health;
     public int stamina;
 
@@ -17,6 +22,7 @@ public class PlayerMovement : NetworkBehaviour
     bool isReady;
 
     public Vector3 targetPoint;
+    int NetworkId;
 
     private void Awake()
     {
@@ -25,12 +31,24 @@ public class PlayerMovement : NetworkBehaviour
     }
 
     void Start() {
-        //playerCamera = Camera.main;
-        playerCamera = GetComponent<Camera>();
-    }
+        playerCameraGameObjectReferance = Instantiate<GameObject>(playerCameraGameObject, this.transform.position,Quaternion.identity) as GameObject;
 
-    //Update is called once per frame
-    [Client]
+        if (isLocalPlayer) { 
+            playerCameraGameObjectReferance.SetActive(true);
+            playerCameraGameObjectReferance.GetComponent<CameraScript>().player = this.gameObject.transform;
+            playerCamera = playerCameraGameObjectReferance.GetComponent<Camera>();
+            //playerCamera.transform.rotation = new Vector3(90, 90, 0);
+        }
+        else { 
+            playerCameraGameObjectReferance.SetActive(false);
+            //playerCamera = Camera.main;
+            //playerCamera = gameObject.transform.GetChild(1).GetComponent<UnityEngine.Camera>();
+            }
+
+        }
+
+        //Update is called once per frame
+        [Client]
     void Update () {
         
         if (!hasAuthority)
@@ -40,7 +58,7 @@ public class PlayerMovement : NetworkBehaviour
             movement();
             faceMouse();
             CmdUpdatePlayerPosition(this.transform.position, this.transform.rotation);
-
+            CameraFollowFunction(playerCamera);
         }
     }
 
@@ -76,10 +94,11 @@ public class PlayerMovement : NetworkBehaviour
     void faceMouse()
     {
         Plane PlayerPlane = new Plane(Vector3.up, transform.position);
-        Ray ray = UnityEngine.Camera.main.ScreenPointToRay(Input.mousePosition);
+        Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition); 
+        
         //When Using Camera If you have a camera scrip you Must use unity engine infront of it
         //Debug.Log(ray.direction);
-        float hitDistance = 3f;
+        float hitDistance = 5f;
         if (PlayerPlane.Raycast(ray, out hitDistance))
         {
             targetPoint = ray.GetPoint(hitDistance);
@@ -87,10 +106,10 @@ public class PlayerMovement : NetworkBehaviour
             targetRotation.x = 0;
             targetRotation.z = 0;
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 7f * Time.deltaTime);
+            
             Debug.DrawLine(ray.origin, targetPoint,Color.red);
-
             //This does work But we need to give the player a new camera
-            Debug.Log(targetPoint.x + " " + targetPoint.z);
+           
         }
 
     }
@@ -110,9 +129,6 @@ public class PlayerMovement : NetworkBehaviour
         return tempVec;
     }
 
-    
-
-
     [Command]// This is tp update the server Position
     void CmdUpdatePlayerPosition(Vector3 Location, Quaternion LocalRotation)
     {
@@ -130,5 +146,10 @@ public class PlayerMovement : NetworkBehaviour
         transform.position = Location;
         transform.localRotation = LocalRotation;
     }
-    //Here we are going to add the playerClass when the player is spawned.    
+    //Here we are going to add the playerClass when the player is spawned
+    void CameraFollowFunction(UnityEngine.Camera camera)
+    {
+        //camera.transform.position = new Vector3(this.transform.position.x, 30, this.transform.position.z);
+        
+    }
 }

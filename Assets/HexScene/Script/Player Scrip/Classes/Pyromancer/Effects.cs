@@ -7,9 +7,9 @@ public class StatusEffects : SpellEffects
 {
     SpellEffectType type = SpellEffectType.Status;
     // Start is called before the first frame update
-    public override void ExceuteEffect(Fireabilities ability, GameObject go, GameObject playerPrefab)
+    public override void ExceuteEffect(Abilities ability, GameObject go, GameObject playerPrefab)
     {
-        Instantiate<GameObject>(go,playerPrefab.transform.position,Quaternion.identity);
+        
                 
         throw new System.NotImplementedException();
     }
@@ -20,7 +20,7 @@ public class StatusEffects : SpellEffects
 public class WallEffects  : SpellEffects
 {
     SpellEffectType type = SpellEffectType.Wall;
-    public override void ExceuteEffect(Fireabilities ability, GameObject go, GameObject playerPrefab)
+    public override void ExceuteEffect(Abilities ability, GameObject go, GameObject playerPrefab)
     {
 
 
@@ -32,9 +32,9 @@ public class WallEffects  : SpellEffects
 public class ProjectileEffects : SpellEffects
 {
     SpellEffectType type = SpellEffectType.Projectile;
-    public override void ExceuteEffect(Fireabilities ability, GameObject go, GameObject playerPrefab)
+    public override void ExceuteEffect(Abilities ability, GameObject go, GameObject playerPrefab)
     {
-
+        Instantiate<GameObject>(go,playerPrefab.transform.position,Quaternion.identity);
 
         throw new System.NotImplementedException();
     }
@@ -43,7 +43,7 @@ public class ProjectileEffects : SpellEffects
 [CreateAssetMenu(fileName = "Effects", menuName = "EffectSystem/Effects/AOE")]
 public class AOE : SpellEffects {
     SpellEffectType type = SpellEffectType.AOE;
-    public override void ExceuteEffect(Fireabilities ability, GameObject go, GameObject PlayerPrefab)
+    public override void ExceuteEffect(Abilities ability, GameObject go, GameObject PlayerPrefab)
     {
         throw new System.NotImplementedException();
     }
@@ -52,8 +52,9 @@ public class AOE : SpellEffects {
 [CreateAssetMenu(fileName = "Effects", menuName = "EffectSystem/Effects/DOT")]
 public class DOTEffects : SpellEffects {
     SpellEffectType type = SpellEffectType.DOT;
-    public override void ExceuteEffect(Fireabilities ability, GameObject go, GameObject PlayerPrefab)
+    public override void ExceuteEffect(Abilities ability, GameObject go, GameObject PlayerPrefab)
     {
+
         throw new System.NotImplementedException();
     }
 }

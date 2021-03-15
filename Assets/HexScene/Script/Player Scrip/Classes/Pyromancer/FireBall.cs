@@ -15,34 +15,36 @@ public class FireBall : NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        ray = UnityEngine.Camera.main.ScreenPointToRay(Input.mousePosition);
         timer = Time.time;
-        this.transform.position = GetComponent<Transform>().position;
-        
-        //if (isLocalPlayer)
-
+        //if (isLocalPlayer
+        ProjectileDirection = CalculateDirection(ProjectileDirection);
     }
 
     // Update is called once per frame
     void Update()
-    { 
-        Vector3 targetPoint = ray.GetPoint(0);
-        ProjectileDirection = ProjectileDirection.normalized;
-        this.transform.Translate(ProjectileDirection.x, 0, ProjectileDirection.z, Space.World);
+    {
+        //Vector3 targetPoint = ray.GetPoint(0);
+        //ProjectileDirection = ProjectileDirection.normalized;
+        //this.transform.Translate(ProjectileDirection.x, 0, ProjectileDirection.z, Space.World);
         //This does work but we will need to add a new camera
-
-        if (isServer) {
-            RpcTimerDestroy();
-            RpcUpdateFireBallPosition(this.transform.position);
+        if (hasAuthority)
+        {
+            //This works now but the the Object will not move toward the Proectile Direction as there is no Target Direction on the newly Spawned player camera
+            CmdUpdateFireBallPosition(ProjectileDirection);
+        }
+        if (isServer) { 
+            RpcTimerDestroy();  
         }
         if (isClient)
         {
-            //CmdMoveToMouse(ProjectileDirection);
+            //CmdUpdateFireBallPosition(ProjectileDirection.normalized);
+            //CmdMoveFireBallOnClient(ProjectileDirection.normalized);
+            //RpcMoveToMouse(ProjectileDirection.normalized);
+
             //CmdDespawnFireBall();
         }
         //MoveToMouse(ProjectileDirection);
     }
-
 
     //This will be where the ability has its effect
     public void AbilityEffect()
@@ -50,43 +52,42 @@ public class FireBall : NetworkBehaviour
         Debug.Log("The Ability has hit");
     }
 
-    public void setMousePosition(Vector3 mousePos)
-    {
-        //Vector3 aimDirection = mousePos - //player Transform.Position
-        //ProjectileDirection = mousePos;
-        //pyromancer.onMouseClick -= setMousePosition;
-        Debug.Log(mousePos);
-    }
-
-
     #region Client 
 
-    [Command]   
-    public void CmdMoveToMouse(Vector3 Direction)
+    [ClientRpc]
+    public void RpcMoveToMouse(Vector3 Direction)
     {
-        Debug.Log(Direction);
         //Normalizing we get the distrance We can add a scaler on top of it.
-        this.transform.Translate(new Vector3(Direction.x, 0, Direction.y), Space.World);
+        //this.transform.Translate(new Vector3(Direction.x, 0, Direction.y), Space.World);
+        this.transform.position = Direction;
         //This updates the Position on the server Side.
-        RpcUpdateFireBallPosition(this.transform.position);
+        
         
     }
 
-    [ClientRpc]
-    public void RpcSpanwFireBall()
+    Vector3 CalculateDirection(Vector3 Direction)
     {
-        //ClientScene.RegisterPrefab(this.gameObject);
-        Debug.Log("RPC SpawnFireBall on Client Scene");
+        float temp = Direction.x / Direction.z;
+        
+        //Vector3.Magnitude(Vector3.Distance(this.transform.position, Direction));
+        float tempX = this.transform.position.x - Direction.x;
+        float tempZ = this.transform.position.z - Direction.z;
+        //Here we are calculating the Vector from the Angle
+        temp = Mathf.Atan(tempX / tempZ);
+        tempX = Mathf.Sin(temp);
+        tempZ = Mathf.Cos(temp);
+        
+        return new Vector3(tempX,0,tempZ);
     }
 
     #endregion
 
 
     #region Server
-    
     [ServerCallback]
     private void OnCollisionEnter(Collision collision)
     {
+        Debug.Log(collision);
         //destroy Self
         //Check what the FireBall Hit.
         //Deal Damage to Player That has been hit
@@ -98,28 +99,27 @@ public class FireBall : NetworkBehaviour
     [ServerCallback]
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other.tag);
+        //Debug.Log(other.tag);
         //NetworkServer.Destroy(this.gameObject);
         //ClientScene.UnregisterPrefab(this.gameObject);
         //Destroy(this.gameObject);
     }
 
-    [ClientRpc]
-    public void RpcUpdateFireBallPosition(Vector3 Location)
+    [Command]
+    public void CmdUpdateFireBallPosition(Vector3 Direction)
     {
-        if (isLocalPlayer)
-            return;
-
-        this.transform.position = Location;
-        //We will need to update all of the clients aswell
-        //Here the Vector Direction And Add this to the clients 
+        this.transform.position += Direction * Time.deltaTime * 5;
+        //Here we need to get the direction of the Direciton vector from the player vector.
+        RpcMoveToMouse(this.transform.position);
+        
     }
     
-    [Command]
+    [Command(ignoreAuthority = true)]
     public void CmdDespawnFireBall()
     {
-        Destroy(this.gameObject); 
+        Debug.Log("DEspawned on clients aswell");
         ClientScene.UnregisterPrefab(this.gameObject);
+        Destroy(this.gameObject); 
     }
 
     [ClientRpc]
@@ -129,10 +129,17 @@ public class FireBall : NetworkBehaviour
         {
             Debug.Log("boom");
             //Here I will have to remove the object from the client aswell
-            NetworkServer.Destroy(this.gameObject);
             CmdDespawnFireBall();
+            NetworkServer.Destroy(this.gameObject);
             timer = Time.time;
         }
+    }
+
+    [TargetRpc]
+    public void TargetgetCurrentObjectPosition(Vector3 Location)
+    {
+        Debug.Log(Location);
+        //this.transform.position = Location;
     }
 
     #endregion

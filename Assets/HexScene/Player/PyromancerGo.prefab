@@ -259,6 +259,11 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   playerCamera: {fileID: 0}
+  playerCameraGameObject: {fileID: 4793977031979957783, guid: 5eeb5623b8e41e7438f6698935658cfb,
+    type: 3}
+  health: 0
+  stamina: 0
+  targetPoint: {x: 0, y: 0, z: 0}
 --- !u!114 &3694971030559850160
 MonoBehaviour:
   m_ObjectHideFlags: 0

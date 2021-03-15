@@ -106,7 +106,6 @@ public class MyNetworkManager : NetworkManager
     //here is where we assing players their Class From the Server
     public void assingPlayerClass(NetworkConnection con)
     {
-       
         GameObject player;
         switch (tempInt)
         {
