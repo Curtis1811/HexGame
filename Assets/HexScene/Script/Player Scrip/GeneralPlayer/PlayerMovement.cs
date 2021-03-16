@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 
 using Mirror;
 
-//MUST SORT OUT DIFFERETN CAMERAS TO FIX SHOOTING.
+
 
 public class PlayerMovement : NetworkBehaviour
 {
@@ -39,11 +39,10 @@ public class PlayerMovement : NetworkBehaviour
             playerCamera = playerCameraGameObjectReferance.GetComponent<Camera>();
             //playerCamera.transform.rotation = new Vector3(90, 90, 0);
         }
-        else { 
+        else 
+        { 
             playerCameraGameObjectReferance.SetActive(false);
-            //playerCamera = Camera.main;
-            //playerCamera = gameObject.transform.GetChild(1).GetComponent<UnityEngine.Camera>();
-            }
+        }
 
         }
 
@@ -58,7 +57,6 @@ public class PlayerMovement : NetworkBehaviour
             movement();
             faceMouse();
             CmdUpdatePlayerPosition(this.transform.position, this.transform.rotation);
-            CameraFollowFunction(playerCamera);
         }
     }
 
@@ -98,7 +96,7 @@ public class PlayerMovement : NetworkBehaviour
         
         //When Using Camera If you have a camera scrip you Must use unity engine infront of it
         //Debug.Log(ray.direction);
-        float hitDistance = 5f;
+        float hitDistance = Mathf.Infinity;
         if (PlayerPlane.Raycast(ray, out hitDistance))
         {
             targetPoint = ray.GetPoint(hitDistance);
@@ -114,7 +112,7 @@ public class PlayerMovement : NetworkBehaviour
 
     }
 
-    //here we are doing to create some functions to get the mouse world Position Since all player objects will ahve a playmovements we can pass this to any class The player has
+    //Here we are doing to create some functions to get the mouse world Position Since all player objects will ahve a playmovements we can pass this to any class The player has
     //May have to move this to Different classes. 
     //WE are creating this here becasye we ahve a Face mouse Function that has data. 
     public static Vector3 GetMouseWorldPosition()
@@ -147,9 +145,5 @@ public class PlayerMovement : NetworkBehaviour
         transform.localRotation = LocalRotation;
     }
     //Here we are going to add the playerClass when the player is spawned
-    void CameraFollowFunction(UnityEngine.Camera camera)
-    {
-        //camera.transform.position = new Vector3(this.transform.position.x, 30, this.transform.position.z);
-        
-    }
+    
 }

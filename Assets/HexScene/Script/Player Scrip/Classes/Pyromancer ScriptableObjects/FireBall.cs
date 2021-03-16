@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
+//MUST FIX THE DIRECTION CALCULATION.
 public class FireBall : NetworkBehaviour
 {
     public Pyromancer pyromancer;
@@ -12,12 +13,14 @@ public class FireBall : NetworkBehaviour
     Ray ray; 
     public float timer;
     
+    public Fireabilities fireabilities;
     // Start is called before the first frame update
     void Start()
     {
         timer = Time.time;
         //if (isLocalPlayer
-        ProjectileDirection = CalculateDirection(ProjectileDirection);
+        ProjectileDirection = CalculateDirection(ProjectileDirection,this.gameObject);
+        fireabilities.Execute(this.gameObject, this.gameObject);
     }
 
     // Update is called once per frame
@@ -35,14 +38,6 @@ public class FireBall : NetworkBehaviour
         if (isServer) { 
             RpcTimerDestroy();  
         }
-        if (isClient)
-        {
-            //CmdUpdateFireBallPosition(ProjectileDirection.normalized);
-            //CmdMoveFireBallOnClient(ProjectileDirection.normalized);
-            //RpcMoveToMouse(ProjectileDirection.normalized);
-
-            //CmdDespawnFireBall();
-        }
         //MoveToMouse(ProjectileDirection);
     }
 
@@ -57,27 +52,25 @@ public class FireBall : NetworkBehaviour
     [ClientRpc]
     public void RpcMoveToMouse(Vector3 Direction)
     {
-        //Normalizing we get the distrance We can add a scaler on top of it.
-        //this.transform.Translate(new Vector3(Direction.x, 0, Direction.y), Space.World);
         this.transform.position = Direction;
-        //This updates the Position on the server Side.
-        
-        
+        //This updates the Position on the server Side.        
     }
 
-    Vector3 CalculateDirection(Vector3 Direction)
+    //Therse calculations may be better as a static Variable.
+    Vector3 CalculateDirection(Vector3 Direction, GameObject gameObject)
     {
         float temp = Direction.x / Direction.z;
         
-        //Vector3.Magnitude(Vector3.Distance(this.transform.position, Direction));
-        float tempX = this.transform.position.x - Direction.x;
-        float tempZ = this.transform.position.z - Direction.z;
-        //Here we are calculating the Vector from the Angle
+        float tempX = gameObject.transform.position.x - Direction.x;
+        float tempZ = gameObject.transform.position.z - Direction.z;
+        //Vector2()
+       //Here we are calculating the Vector from the Angle
         temp = Mathf.Atan(tempX / tempZ);
-        tempX = Mathf.Sin(temp);
-        tempZ = Mathf.Cos(temp);
-        
-        return new Vector3(tempX,0,tempZ);
+        Debug.Log(Direction);
+        tempX = Mathf.Cos(temp);
+        tempZ = Mathf.Sin(temp);
+        //Debug.Log(tempX + " " + tempZ);
+        return new Vector3(tempZ, 0, tempX);
     }
 
     #endregion
@@ -88,7 +81,7 @@ public class FireBall : NetworkBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         Debug.Log(collision);
-        //destroy Self
+        //Destroy Self
         //Check what the FireBall Hit.
         //Deal Damage to Player That has been hit
         AbilityEffect();
@@ -104,6 +97,7 @@ public class FireBall : NetworkBehaviour
         //ClientScene.UnregisterPrefab(this.gameObject);
         //Destroy(this.gameObject);
     }
+
 
     [Command]
     public void CmdUpdateFireBallPosition(Vector3 Direction)
@@ -125,9 +119,9 @@ public class FireBall : NetworkBehaviour
     [ClientRpc]
     public void RpcTimerDestroy()
     {
-        if (Time.time >= timer + 2 /*filerball scripable prefab*/)
+        if (Time.time >= timer + fireabilities.CoolDown)
         {
-            Debug.Log("boom");
+            Debug.Log("ServerSideDestroyed");
             //Here I will have to remove the object from the client aswell
             CmdDespawnFireBall();
             NetworkServer.Destroy(this.gameObject);

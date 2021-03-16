@@ -125,4 +125,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  pyromancer: {fileID: 0}
+  ProjectileDirection: {x: 0, y: 0, z: 0}
   timer: 0
+  fireabilities: {fileID: 11400000, guid: eadfbcf38d6a2c2439dc63af49492c9e, type: 2}

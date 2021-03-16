@@ -9,9 +9,9 @@ public class StatusEffects : SpellEffects
     // Start is called before the first frame update
     public override void ExceuteEffect(Abilities ability, GameObject go, GameObject playerPrefab)
     {
-        
+        Debug.Log("Ths is a Status SpellEffect");
                 
-        throw new System.NotImplementedException();
+       
     }
 
 }
@@ -22,9 +22,8 @@ public class WallEffects  : SpellEffects
     SpellEffectType type = SpellEffectType.Wall;
     public override void ExceuteEffect(Abilities ability, GameObject go, GameObject playerPrefab)
     {
+        Debug.Log("This is a wall effect");
 
-
-        throw new System.NotImplementedException();
     }
 }
 
@@ -34,9 +33,9 @@ public class ProjectileEffects : SpellEffects
     SpellEffectType type = SpellEffectType.Projectile;
     public override void ExceuteEffect(Abilities ability, GameObject go, GameObject playerPrefab)
     {
-        Instantiate<GameObject>(go,playerPrefab.transform.position,Quaternion.identity);
-
-        throw new System.NotImplementedException();
+        //Instantiate<GameObject>(go,playerPrefab.transform.position,Quaternion.identity);
+        Debug.Log("This is a projectile Effect");
+       //throw new System.NotImplementedException();
     }
 }
 
@@ -45,7 +44,7 @@ public class AOE : SpellEffects {
     SpellEffectType type = SpellEffectType.AOE;
     public override void ExceuteEffect(Abilities ability, GameObject go, GameObject PlayerPrefab)
     {
-        throw new System.NotImplementedException();
+        Debug.Log("This is an AOE effect");
     }
 }
 
@@ -55,7 +54,7 @@ public class DOTEffects : SpellEffects {
     public override void ExceuteEffect(Abilities ability, GameObject go, GameObject PlayerPrefab)
     {
 
-        throw new System.NotImplementedException();
+        Debug.Log("THis is a DOT effect");
     }
 }
 
@@ -64,5 +63,5 @@ public class DOTEffects : SpellEffects {
     Status,
     Wall,
     Projectile,
-    AOE,
+    AOE, 
     DOT*/

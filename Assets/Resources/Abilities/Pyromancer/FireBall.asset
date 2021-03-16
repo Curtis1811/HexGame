@@ -18,7 +18,9 @@ MonoBehaviour:
   type: 0
   discription: Standard Fireball that will knock back and deal damage
   prefabName: FireBall
-  coolDown: 0
+  coolDown: 3
+  SPE:
+  - {fileID: 11400000, guid: 201e68788549b524785d2f25e27c4627, type: 2}
   knockback: 0
   dot: 0
   damage: 0

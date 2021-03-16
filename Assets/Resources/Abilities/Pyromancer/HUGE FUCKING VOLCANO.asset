@@ -19,6 +19,9 @@ MonoBehaviour:
   discription: IT'S A MASSIVE FUCKING VOLCANO
   prefabName: 
   coolDown: 0
-  kockback: 0
+  SPE:
+  - {fileID: 0}
+  knockback: 0
   dot: 0
   damage: 0
+  status: 

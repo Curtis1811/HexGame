@@ -26,7 +26,8 @@ public abstract class Abilities : ScriptableObject
    
     //Type of Ability
     [SerializeField] public abilityType type;
-    
+    //[SerializeField] public SpellEffects SPE;
+    //[SerializeField] public List<SpellEffects> SPE;
     // Discription
     [TextArea(15, 20)]
     [SerializeField] private string discription;
@@ -35,12 +36,10 @@ public abstract class Abilities : ScriptableObject
     //We will need some kind of Effect Visual Object
 
     //These 
-    
 
     //These are getters for the Class
     public string Name => name;
     public Sprite Icon => icon;
-   
     public string Discription => discription;
     public string PrefabName => prefabName;
     public float CoolDown => coolDown;

@@ -14,7 +14,6 @@ public enum SpellEffectType
 
 public abstract class SpellEffects : ScriptableObject
 {
-    
     // Start is called before the first frame update
     public abstract void ExceuteEffect(Abilities ability, GameObject go, GameObject PlayerPrefab);
    

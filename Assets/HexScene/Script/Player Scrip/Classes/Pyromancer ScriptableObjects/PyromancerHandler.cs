@@ -36,7 +36,6 @@ public class PyromancerHandler : MonoBehaviour
     private void Awake()
     {
         AssignGameObjects(PyromancerGameObjectPrefabs);
-
         LoadResources();
     }
 

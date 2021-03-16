@@ -261,6 +261,7 @@ MonoBehaviour:
   playerCamera: {fileID: 0}
   playerCameraGameObject: {fileID: 4793977031979957783, guid: 5eeb5623b8e41e7438f6698935658cfb,
     type: 3}
+  playerCameraGameObjectReferance: {fileID: 0}
   health: 0
   stamina: 0
   targetPoint: {x: 0, y: 0, z: 0}
@@ -283,6 +284,8 @@ MonoBehaviour:
   fireballPrefab: {fileID: 1699156537710332, guid: 698f84f781248324597a4c81334d5f58,
     type: 3}
   fireWavePrefab: {fileID: 0}
+  MeteorPrefab: {fileID: 7554132318039432246, guid: bef8593c8c79a654e89e384ad5e866d4,
+    type: 3}
   AbilityNames: []
 --- !u!114 &3609794933169735549
 MonoBehaviour:

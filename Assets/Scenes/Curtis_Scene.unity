@@ -2527,6 +2527,7 @@ MonoBehaviour:
   - {fileID: 8049704082622753196, guid: 7e6795c0e1dab184f896eb37a75a32af, type: 3}
   - {fileID: 8049704082622753196, guid: 1f38ef5878638514a83803bce9dd05b9, type: 3}
   - {fileID: 7637556281198289617, guid: eedfe2514ecfc6045b47f284a4e14e83, type: 3}
+  - {fileID: 7554132318039432246, guid: bef8593c8c79a654e89e384ad5e866d4, type: 3}
   playerSpawn: {fileID: 1660129881}
   pyromancer: {fileID: 8049704082622753196, guid: e104654a630cfe44eae05a55a02adc72,
     type: 3}
