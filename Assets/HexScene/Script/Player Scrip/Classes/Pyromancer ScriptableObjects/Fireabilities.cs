@@ -8,7 +8,7 @@ using UnityEngine;
 public class Fireabilities : Abilities
 {
     
-    [SerializeField]public List<SpellEffects> SPE;
+    //[SerializeField]public List<SpellEffects> SPE; Commented Since every ability will have some kind of effect.
     //How far the player will be sent
     [SerializeField] private float knockback;
     //How much % the Player will recieve
@@ -24,11 +24,11 @@ public class Fireabilities : Abilities
 
     public string Status => status;
 
-    virtual public void Execute(GameObject go, GameObject player){
+    virtual public void Execute(PlayerMovement User, PlayerMovement player){
 
         foreach (SpellEffects effect in SPE)
         {
-            effect.ExceuteEffect(this,go,player);
+            //effect.ExceuteEffect(this, User, player);
         }
     }
 

@@ -12,30 +12,34 @@ public enum abilityType{
     Earth
 }
 
-public abstract class Abilities : ScriptableObject
+public abstract class Abilities : ScriptableObject , ICooldownInterface
 {
 
+    [Header("UI")]
     // This is the name of the ability
     [SerializeField] new private string name;
-
     // This is the sprite of the Ability icons
     [SerializeField] private Sprite icon;
+    
 
-    // This is to decide if the Ability is default or not
-    [SerializeField] public bool isDefaultAbility;
-   
-    //Type of Ability
+    [Header("Types")]
     [SerializeField] public abilityType type;
     //[SerializeField] public SpellEffects SPE;
     //[SerializeField] public List<SpellEffects> SPE;
-    // Discription
+
+    [Header("Discription")]
     [TextArea(15, 20)]
     [SerializeField] private string discription;
     [SerializeField] private string prefabName; // Maybe Obsolete
-    [SerializeField] private float coolDown;
-    //We will need some kind of Effect Visual Object
+    [SerializeField] public bool isDefaultAbility;
 
-    //These 
+    [Header("Spell Variables")]
+    [SerializeField] private float coolDown;
+    [SerializeField] private float duration;
+    [SerializeField] public List<SpellEffects> SPE;
+    [SerializeField] public int SpellId = 1;
+    
+    //We will need some kind of Effect Visual Object
 
     //These are getters for the Class
     public string Name => name;
@@ -43,6 +47,7 @@ public abstract class Abilities : ScriptableObject
     public string Discription => discription;
     public string PrefabName => prefabName;
     public float CoolDown => coolDown;
-    
-
+    public float Duration => duration;
+    public int id => SpellId;
+    public float CooldownDuration => coolDown;
 }

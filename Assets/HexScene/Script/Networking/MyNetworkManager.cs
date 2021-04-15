@@ -22,6 +22,7 @@ public class MyNetworkManager : NetworkManager
    
     private List<int> PlayerID;
     public GameObject pyromancer;
+    public GameObject hydromancer;
 
     //EventScript evs;
     [Scene] [SerializeField] public string LobbyScene = string.Empty;
@@ -51,9 +52,7 @@ public class MyNetworkManager : NetworkManager
     {
         tempString = Message.An;
         tempInt = Message.Class;
-
-        //Debug.Log("Recieved");
-        
+               
     }
      
 
@@ -94,19 +93,16 @@ public class MyNetworkManager : NetworkManager
     }
 
     
-    
     public override void OnStartClient()
     {
-        
-        //Debug.Log("ClientHasStarted");
+        Debug.Log("ClientHasStarted");
     }
 
-
-    
     //here is where we assing players their Class From the Server
     public void assingPlayerClass(NetworkConnection con)
     {
         GameObject player;
+        tempInt = 1; // TESTING REMOVE
         switch (tempInt)
         {
             case 1:
@@ -118,7 +114,14 @@ public class MyNetworkManager : NetworkManager
             
             case 2:
                 Debug.Log("New Class Added Hydromancer");
-                break;
+                player = Instantiate(hydromancer, playerSpawn);
+                //player.GetComponent<PyromancerHandler>().abilityData = tempString;
+                ClientScene.RegisterPrefab(player);
+                NetworkServer.AddPlayerForConnection(con, player);
+                //player.GetComponent<HydromancerHandler>().abilityData = tempString;
+                //ClientScene.RegisterPrefab(player);
+                //NetworkServer.AddPlayerForConnection(con, player);
+                break; 
             
             case 3:
                 Debug.Log("New Class Added Aeromancer");

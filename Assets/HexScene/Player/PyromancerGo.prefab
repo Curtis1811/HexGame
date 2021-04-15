@@ -1,5 +1,35 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1356437130272501165
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 360881426533670026}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &360881426533670026
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1356437130272501165}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 1.17}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 8044295540315603596}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8048468752846182662
 GameObject:
   m_ObjectHideFlags: 0
@@ -111,6 +141,7 @@ GameObject:
   - component: {fileID: 6529811151908143914}
   - component: {fileID: 3694971030559850160}
   - component: {fileID: 3609794933169735549}
+  - component: {fileID: 2447877042346279785}
   m_Layer: 0
   m_Name: PyromancerGo
   m_TagString: Player
@@ -130,6 +161,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8051441067991250240}
+  - {fileID: 360881426533670026}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -159,7 +191,7 @@ MeshRenderer:
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 883a7db7f994aab478a4380ad50eda70, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -264,6 +296,9 @@ MonoBehaviour:
   playerCameraGameObjectReferance: {fileID: 0}
   health: 0
   stamina: 0
+  scaler: 0
+  OriginalScaler: 0
+  CanShoot: 0
   targetPoint: {x: 0, y: 0, z: 0}
 --- !u!114 &3694971030559850160
 MonoBehaviour:
@@ -280,11 +315,13 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   discription: Fire is good and strong yes!
-  name: Pyromancer
   fireballPrefab: {fileID: 1699156537710332, guid: 698f84f781248324597a4c81334d5f58,
     type: 3}
-  fireWavePrefab: {fileID: 0}
   MeteorPrefab: {fileID: 7554132318039432246, guid: bef8593c8c79a654e89e384ad5e866d4,
+    type: 3}
+  LargeFireBallPrefab: {fileID: 8203716788315773329, guid: 09c2c2421d176244e8ec5e4d42e89487,
+    type: 3}
+  AdrnalinePrefab: {fileID: 5981484223419101858, guid: fd166f9798d9dac4abda0e6f1d2bf997,
     type: 3}
   AbilityNames: []
 --- !u!114 &3609794933169735549
@@ -303,3 +340,15 @@ MonoBehaviour:
   FireList: []
   PyromancerGameObjectPrefabs: []
   PyromancerChosenList: []
+--- !u!114 &2447877042346279785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8049704082622753196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc7cfd914f7d20c45a8fec8b14cb989a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

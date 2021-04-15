@@ -14,11 +14,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Meteor
   icon: {fileID: 21300006, guid: 9ba453ff7c6124209b57da4cd176d458, type: 3}
-  isDefaultAbility: 0
   type: 0
   discription: This is a large meteor that will destroy Hex's
   prefabName: Meteor
-  coolDown: 2
-  kockback: 2
+  isDefaultAbility: 0
+  coolDown: 10
+  duration: 3
+  SPE:
+  - {fileID: 0}
+  - {fileID: 0}
+  SpellId: 4
+  knockback: 10
   dot: 2
   damage: 2
+  status: 

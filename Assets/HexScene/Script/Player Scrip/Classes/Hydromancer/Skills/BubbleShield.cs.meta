@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: 0925e280531296e47b731554b538b7a3
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - PlayerWhoSpawned: {instanceID: 0}
+  - WaterAbilities: {fileID: 11400000, guid: 2bdfb1662fdd1b24483e970980a3d104, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

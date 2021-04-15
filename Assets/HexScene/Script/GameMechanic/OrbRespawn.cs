@@ -22,7 +22,7 @@ public class OrbRespawn : NetworkBehaviour {
 
     }
 
-    [Server]
+    [ServerCallback]
     public void Update()
     {
         RpcSpwnOrb();
@@ -40,9 +40,9 @@ public class OrbRespawn : NetworkBehaviour {
             NetworkServer.Spawn(orbInstance);
         }
     }
+        
 
-
-    [Server]
+    [ServerCallback]
     public void SendClientPosition(Vector3 Pos)
     {
         

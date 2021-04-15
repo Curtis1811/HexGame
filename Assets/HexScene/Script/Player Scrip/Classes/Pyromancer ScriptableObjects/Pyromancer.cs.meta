@@ -6,6 +6,12 @@ MonoImporter:
   defaultReferences:
   - fireballPrefab: {fileID: 1699156537710332, guid: 698f84f781248324597a4c81334d5f58,
       type: 3}
+  - MeteorPrefab: {fileID: 7554132318039432246, guid: bef8593c8c79a654e89e384ad5e866d4,
+      type: 3}
+  - LargeFireBallPrefab: {fileID: 8203716788315773329, guid: 09c2c2421d176244e8ec5e4d42e89487,
+      type: 3}
+  - AdrnalinePrefab: {fileID: 5981484223419101858, guid: fd166f9798d9dac4abda0e6f1d2bf997,
+      type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

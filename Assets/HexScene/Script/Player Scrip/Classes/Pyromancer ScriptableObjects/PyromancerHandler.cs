@@ -3,15 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-
+using Mirror;
 //Here will be where all the functions for the Pyromancer are created.
 public class PyromancerHandler : MonoBehaviour
 {
     public string[] abilityData = new string[4];
     public PyromancerHandler(string[] AbilityData)
     {
-        this.abilityData = AbilityData;
-        
+        this.abilityData = AbilityData;    
     }                                                          
                                                                
     //public GameObject FireBallPrefab = GameObject.FindGameObjectWithTag("FireBall");
@@ -35,22 +34,24 @@ public class PyromancerHandler : MonoBehaviour
     }
     private void Awake()
     {
+        int index = 0;
         AssignGameObjects(PyromancerGameObjectPrefabs);
         LoadResources();
+
+        foreach (Fireabilities Fire in FireList)
+        {
+            FireList[index].SpellId = index;
+            index++;
+        }
     }
 
     private void Start()
     {
+        addAbilities(abilityData);
         //loadDataFromServer(abilityData);
         //if (!this.gameObject.GetComponent<Pyromancer>()) { 
         //    this.gameObject.AddComponent<Pyromancer>();
         //}
-    }
-
-    public void loadDataFromServer(string[]AbilityData)
-    {
-        //This is a test.
-        addAbilities(AbilityData);
     }
 
     public void addAbilities(string[] data)
@@ -70,7 +71,7 @@ public class PyromancerHandler : MonoBehaviour
 
     public void AssignGameObjects(List<GameObject> PyromancerGameObjectPrefabs)
     {
-
+        //here we would assing the prefabs in Pyromancer.
     }
     
     public void getAbilitylist()
@@ -78,4 +79,14 @@ public class PyromancerHandler : MonoBehaviour
 
     }
     //A better way to handle player Classes is to have the handelers grabs whats in the players list. Already on their computers. The server doesnt really need to know.
+
+
+
+   public void UseAbility(Abilities Ability)
+    {
+        
+        //This should be called when the player Uses an ability.
+    }
+
+
 }

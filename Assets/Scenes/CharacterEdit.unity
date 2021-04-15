@@ -312,7 +312,18 @@ MonoBehaviour:
   - eventID: 4
     callback:
       m_PersistentCalls:
-        m_Calls: []
+        m_Calls:
+        - m_Target: {fileID: 1314920847}
+          m_MethodName: OnPointerCharacterClassSelector
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 225303634}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!114 &225303637
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,26 +1,45 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
-[CreateAssetMenu(fileName = "Effects", menuName = "EffectSystem/Effects/Status")]
-public class StatusEffects : SpellEffects
+
+//Here we need to a way to referenace the Effect Data
+[CreateAssetMenu(fileName = "Effects", menuName = "EffectSystem/Effects/StatusEffects")]
+public class Effects : SpellEffects
 {
+    public override event EffectEvent onEffect;
     SpellEffectType type = SpellEffectType.Status;
-    // Start is called before the first frame update
-    public override void ExceuteEffect(Abilities ability, GameObject go, GameObject playerPrefab)
+
+    public enum StatusType
     {
-        Debug.Log("Ths is a Status SpellEffect");
-                
-       
+        stunned,
+        slowed,
+        speedIncrease
     }
 
+    /*
+
+    // Start is called before the first frame update
+    public override void ExceuteEffect(Abilities skillThatsUsed, PlayerMovement PlayerThatAttacked, PlayerMovement PlayTakingAttack)// We will also need to parse in the status effect.
+    {
+        onEffect?.Invoke(PlayerThatAttacked, skillThatsUsed);
+
+        //Here is where we will invoke the onEffect I think.
+        Debug.Log("This is a Status SpellEffect");
+    }*/
+
+    
 }
 
+
+/*
 [CreateAssetMenu(fileName = "Effects", menuName = "EffectSystem/Effects/Wall")]
-public class WallEffects  : SpellEffects
+public class WallEffects : SpellEffects
 {
     SpellEffectType type = SpellEffectType.Wall;
-    public override void ExceuteEffect(Abilities ability, GameObject go, GameObject playerPrefab)
+    public override event EffectEvent onEffect;
+    public override void ExceuteEffect(Abilities skillThatsUsed, PlayerMovement PlayerThatAttacked, PlayerMovement PlayTakingAttack)
     {
         Debug.Log("This is a wall effect");
 
@@ -30,8 +49,9 @@ public class WallEffects  : SpellEffects
 [CreateAssetMenu(fileName = "Effects", menuName = "EffectSystem/Effects/Projectile")]
 public class ProjectileEffects : SpellEffects
 {
+    public override event EffectEvent onEffect;
     SpellEffectType type = SpellEffectType.Projectile;
-    public override void ExceuteEffect(Abilities ability, GameObject go, GameObject playerPrefab)
+    public override void ExceuteEffect(Abilities skillThatsUsed, PlayerMovement PlayerThatAttacked, PlayerMovement PlayTakingAttack)
     {
         //Instantiate<GameObject>(go,playerPrefab.transform.position,Quaternion.identity);
         Debug.Log("This is a projectile Effect");
@@ -42,7 +62,8 @@ public class ProjectileEffects : SpellEffects
 [CreateAssetMenu(fileName = "Effects", menuName = "EffectSystem/Effects/AOE")]
 public class AOE : SpellEffects {
     SpellEffectType type = SpellEffectType.AOE;
-    public override void ExceuteEffect(Abilities ability, GameObject go, GameObject PlayerPrefab)
+    public override event EffectEvent onEffect;
+    public override void ExceuteEffect(Abilities skillThatsUsed, PlayerMovement PlayerThatAttacked, PlayerMovement PlayTakingAttack)
     {
         Debug.Log("This is an AOE effect");
     }
@@ -51,17 +72,10 @@ public class AOE : SpellEffects {
 [CreateAssetMenu(fileName = "Effects", menuName = "EffectSystem/Effects/DOT")]
 public class DOTEffects : SpellEffects {
     SpellEffectType type = SpellEffectType.DOT;
-    public override void ExceuteEffect(Abilities ability, GameObject go, GameObject PlayerPrefab)
+    public override event EffectEvent onEffect;
+    public override void ExceuteEffect(Abilities skillThatsUsed, PlayerMovement PlayerThatAttacked, PlayerMovement PlayTakingAttack)
     {
 
-        Debug.Log("THis is a DOT effect");
+        Debug.Log("This is a DOT effect");
     }
-}
-
-
-/*
-    Status,
-    Wall,
-    Projectile,
-    AOE, 
-    DOT*/
+}*/

@@ -46,7 +46,8 @@ public class GroundDissapering : NetworkBehaviour
         //base.OnStartClient();
         SolidGroundColor();
         hex = GameObject.FindGameObjectsWithTag("Ground").ToList<GameObject>();
-        CmdSpawnHex(); 
+        if(isClient)
+            CmdSpawnHex(); 
 
     }
 
@@ -58,7 +59,7 @@ public class GroundDissapering : NetworkBehaviour
     }
 
 
-    [Server]
+    [ServerCallback]
     private void Update()
     {
         
