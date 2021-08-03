@@ -19,11 +19,11 @@ MonoBehaviour:
   prefabName: FireBall
   isDefaultAbility: 0
   coolDown: 0.5
-  duration: 4
+  duration: 5
   SPE:
   - {fileID: 11400000, guid: 45cfd68371b26cb41b1f5f05b3f6981c, type: 2}
   SpellId: 1
-  knockback: 1
+  knockback: 3
   dot: 0
-  damage: 4
+  damage: 1
   status: No Status

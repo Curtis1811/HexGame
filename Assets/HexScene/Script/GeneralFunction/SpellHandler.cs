@@ -29,7 +29,8 @@ public static class SpellHandler
 
     public static void OnSpeedUp(PlayerMovement user, Abilities abilities, float Amount, bool stateTrue)
     {
-        user.setSpeed(Amount);
+        //user.setSpeed(Amount);
+        user.CmdChangeSpeed(Amount);
         Debug.Log("We are setting the speed here");
         //user.scaler = Ammount;
     }
@@ -54,10 +55,11 @@ public static class SpellHandler
         
     }
 
-    public static void OnApplyKnockBack(PlayerMovement user, Vector3 ProjectilePos, float KnockBackAmount)
+    public static void OnApplyKnockBack(PlayerMovement user, Vector3 ProjectilePos, float KnockBackAmount , float Damage)
     {
         Debug.Log("ApplyKnockBack");
         user.ApplyKnockBack(KnockBackAmount, ProjectilePos);
+        OnFlatDamage(user, Damage);
     }
     //Here is where we are going to try and define some event handlers to handle play stuff
 }

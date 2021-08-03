@@ -9,6 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: c1b246a191d02c74d9fa9b3f884fc879, type: 3}
   m_Name: LargeFireBallProjectileEffect
   m_EditorClassIdentifier: Assembly-CSharp::ProjectileEffects
+  testInt: 0

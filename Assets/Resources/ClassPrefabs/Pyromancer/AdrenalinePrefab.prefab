@@ -4890,7 +4890,4 @@ MonoBehaviour:
   playerWhoSpawned: {fileID: 0}
   timer: 0
   SpawnedNetId: 0
-  X: 0
-  Y: 0
-  Z: 0
-  fireabilities: {fileID: 0}
+  fireabilities: {fileID: 11400000, guid: 2d84221a041c9ed41976510b2ef55317, type: 2}

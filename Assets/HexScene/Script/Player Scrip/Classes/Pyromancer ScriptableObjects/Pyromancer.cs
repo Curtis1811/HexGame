@@ -20,6 +20,7 @@ public class Pyromancer : NetworkBehaviour //MonoBehaviour//PyromancerHandler
     [SerializeField] public GameObject LargeFireBallPrefab;
     [SerializeField] public GameObject AdrnalinePrefab;
     CooldownSystem cooldown;
+
     //here we may add the Adrenaline Prefab. Maybe Not
     //[SerializeField] GameObject fireWavePrefab;
 
@@ -29,9 +30,6 @@ public class Pyromancer : NetworkBehaviour //MonoBehaviour//PyromancerHandler
     NetworkConnection connection;
     float cooldownreduction; // this will Dictate the speed at whch an ability can be used
     float FireRate; // This will be Global Cooldown
-
-    //bool CanShoot; // This will be the stunned variable taking control away from the player
-
     PlayerMovement playermove;
     // This will be assigned based on what Abilites are 
     //Change this to have its own Class that other classes can use as a tempalte.
@@ -50,6 +48,10 @@ public class Pyromancer : NetworkBehaviour //MonoBehaviour//PyromancerHandler
         MeteorPrefab = ph.PyromancerGameObjectPrefabs.Find(x => x.name == "Meteor");
         LargeFireBallPrefab = ph.PyromancerGameObjectPrefabs.Find(x => x.name == "LargeFireBall");
         AdrnalinePrefab = ph.PyromancerGameObjectPrefabs.Find(x => x.name == "AdrenalinePrefab");
+        ClientScene.RegisterPrefab(fireballPrefab);
+        ClientScene.RegisterPrefab(AdrnalinePrefab);
+        ClientScene.RegisterPrefab(MeteorPrefab);
+        ClientScene.RegisterPrefab(LargeFireBallPrefab);
         //KeyAssinging(PyromancerChosenList);
     }
 
@@ -58,20 +60,19 @@ public class Pyromancer : NetworkBehaviour //MonoBehaviour//PyromancerHandler
     {
         if(isLocalPlayer)
             keyChecker(playermove.CanShoot);
-        
     }
 
     [Client]
     public void keyChecker(bool CanShoot)
     {
-        if (isLocalPlayer) { 
+        if (isLocalPlayer && CanShoot) { 
             if (Input.GetKeyDown(KeyCode.Mouse0))
             {
                 if (cooldown.isOnCooldown(fireballPrefab.GetComponent<FireBall>().fireabilities.id))
                 {
                     return;
                 }
-                CmdFireball(this.gameObject.GetComponent<PlayerMovement>().targetPoint);
+                CmdFireball(ClientScene.localPlayer.GetComponent<PlayerMovement>().targetPoint, netId);
                 cooldown.PutOnCooldown(fireballPrefab.GetComponent<FireBall>().fireabilities);
                 //Debug.Log(ph.PyromancerChosenList[0]);
             }
@@ -81,7 +82,7 @@ public class Pyromancer : NetworkBehaviour //MonoBehaviour//PyromancerHandler
                 {
                     return;
                 }
-                CmdLargeFireBall(this.gameObject.GetComponent<PlayerMovement>().targetPoint);
+                CmdLargeFireBall(playermove.targetPoint); //(this.GetComponent<PlayerMovement>().targetPoint);
                 cooldown.PutOnCooldown(LargeFireBallPrefab.GetComponent<LargeFireBall>().fireabilities);
                 //Debug.Log(ph.PyromancerChosenList[1]);
             }
@@ -91,7 +92,7 @@ public class Pyromancer : NetworkBehaviour //MonoBehaviour//PyromancerHandler
                 {
                     return;
                 }
-                CmdAdrnaline();
+                CmdAdrnaline(this.netId);
                 cooldown.PutOnCooldown(AdrnalinePrefab.GetComponent<Adrenaline>().fireabilities);
                 //Debug.Log(ph.PyromancerChosenList[2].name);
             }
@@ -101,7 +102,7 @@ public class Pyromancer : NetworkBehaviour //MonoBehaviour//PyromancerHandler
                 {
                     return;
                 }
-                CmdMeteor(this.gameObject.GetComponent<PlayerMovement>().targetPoint);
+                CmdMeteor(ClientScene.localPlayer.GetComponent<PlayerMovement>().targetPoint);
                 cooldown.PutOnCooldown(MeteorPrefab.GetComponent<Meteor>().fireabilities);
                 //Debug.Log(ph.PyromancerChosenList[3].name);    
             }
@@ -117,58 +118,61 @@ public class Pyromancer : NetworkBehaviour //MonoBehaviour//PyromancerHandler
     //The abilities in a smarter and cleaner way
     //These may need to be put into a different script. THIS IS FOR TESTING
     [Command]
-    public void CmdFireball(Vector3 MousePosition)
+    public void CmdFireball(Vector3 mousePosition, uint id)
     {
-        GameObject fireball = Instantiate(fireballPrefab, this.transform.position, Quaternion.identity);
-        fireball.GetComponent<FireBall>().SpawnedNetId = netId;
-        fireball.GetComponent<FireBall>().playerWhoSpawned = this.gameObject;
-        NetworkServer.Spawn(fireball,this.gameObject);
-        ClientScene.RegisterPrefab(fireball);    
+        GameObject fireball = Instantiate(fireballPrefab, this.transform.position, this.transform.rotation);
+        fireball.GetComponent<FireBall>().x = mousePosition.x;
+        fireball.GetComponent<FireBall>().y = mousePosition.y;
+        fireball.GetComponent<FireBall>().z = mousePosition.z;
+        fireball.GetComponent<FireBall>().SpawnedNetId = id;
+        fireball.GetComponent<FireBall>().timer = NetworkTime.time;
+        NetworkServer.Spawn(fireball, this.gameObject);
+        //ClientScene.RegisterPrefab(fireball);     
+    }
+
+    [Command]
+    public void CmdMeteor(Vector3 mousePosition)
+    {
+        //Vector3 SpawnPosition
+        GameObject Meteor = Instantiate(MeteorPrefab,new Vector3(this.transform.position.x,35, this.transform.position.z), Quaternion.identity);
+        Meteor.GetComponent<Meteor>().x = mousePosition.x;
+        Meteor.GetComponent<Meteor>().y = mousePosition.y;
+        Meteor.GetComponent<Meteor>().z = mousePosition.z;
+        Meteor.GetComponent<Meteor>().SpawnedNetId = this.netId;
+        Meteor.GetComponent<Meteor>().timer = NetworkTime.time;
+        //These are to register the Meteor GameObject to Client and Server
+        NetworkServer.Spawn(Meteor, this.gameObject);
         
     }
 
     [Command]
-    public void CmdMeteor(Vector3 MousePosition)
-    {
-        //Vector3 SpawnPosition
-        GameObject Meteor = Instantiate(MeteorPrefab,new Vector3(this.transform.position.x,35, this.transform.position.z), Quaternion.identity);
-        Meteor.GetComponent<Meteor>().playerWhoSpawned = this.gameObject;
-        //These are to register the Meteor GameObject to Client and Server
-        NetworkServer.Spawn(Meteor, this.gameObject);
-        ClientScene.RegisterPrefab(Meteor);
-    }
-
-    [Command]
-    public void CmdAdrnaline()
+    public void CmdAdrnaline(uint player)
     {
         //System.Guid creatureAssetId = System.Guid.NewGuid();
         GameObject adrenaline = Instantiate(AdrnalinePrefab, this.transform.position, Quaternion.identity);
-        adrenaline.GetComponent<Adrenaline>().SpawnedNetId = this.netId;
-        adrenaline.GetComponent<Adrenaline>().playerWhoSpawned = this.gameObject;
+        //adrenaline.transform.parent = this.transform;
+        adrenaline.GetComponent<Adrenaline>().SpawnedNetId = player;
+        adrenaline.GetComponent<Adrenaline>().timer = NetworkTime.time;
         NetworkServer.Spawn(adrenaline, this.gameObject);
-        ClientScene.RegisterPrefab(adrenaline);
-        RpcSetGameObject(adrenaline);
-    }
 
-    [ClientRpc]
-    public void RpcSetGameObject(GameObject go)
-    {
-        Debug.Log("My hear is blazing");
-        go.GetComponent<Adrenaline>().playerWhoSpawned = this.gameObject;
     }
 
     [Command]
     public void CmdLargeFireBall(Vector3 MousePosition)
     {
-        Vector3 SpawnPosition = GetComponent<PlayerMovement>().gameObject.transform.position;
+        Debug.Log(MousePosition  + " MOUSE POSITION");
+
         //Vector3 SpawnPosition
-        GameObject LargeFireBall = Instantiate(LargeFireBallPrefab, SpawnPosition , Quaternion.identity);
+        GameObject LargeFireBall = Instantiate(LargeFireBallPrefab, this.transform.position, this.transform.rotation);
+        LargeFireBall.GetComponent<LargeFireBall>().x = MousePosition.x;
+        LargeFireBall.GetComponent<LargeFireBall>().y = MousePosition.y;
+        LargeFireBall.GetComponent<LargeFireBall>().z = MousePosition.z;
         LargeFireBall.GetComponent<LargeFireBall>().SpawnedNetId = this.netId;
-        LargeFireBall.GetComponent<LargeFireBall>().playerWhoSpawned = this.gameObject;
+        LargeFireBall.GetComponent<LargeFireBall>().timer = NetworkTime.time;
+       
         //These are to register the Meteor GameObject to Client and Server
         NetworkServer.Spawn(LargeFireBall, this.gameObject);
-        ClientScene.RegisterPrefab(LargeFireBall);
-
+        
     }
 
 }

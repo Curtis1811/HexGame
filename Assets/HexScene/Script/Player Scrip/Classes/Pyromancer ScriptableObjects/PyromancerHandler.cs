@@ -16,13 +16,10 @@ public class PyromancerHandler : MonoBehaviour
     //public GameObject FireBallPrefab = GameObject.FindGameObjectWithTag("FireBall");
     public List<Fireabilities> FireList;
     public List<GameObject> PyromancerGameObjectPrefabs;
-
-
     //public List<Waterabilities> WaterList; 
     //public List<Aireabilities> AirList;
     [SerializeField] public List<Fireabilities> PyromancerChosenList = new List<Fireabilities>();
 
-  
     public void LoadResources()
     {
         //This is essentially the resource folder for Abilities

@@ -4,75 +4,73 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
-//MUST FIX THE DIRECTION CALCULATION.
-public class LargeFireBall : NetworkBehaviour
+
+public class LargeFireBall : SpellBehavior
 {
-    public GameObject playerWhoSpawned;
     //This may have to be changed to Scripable Objects
-    public Vector3 ProjectileDirection;
-    Ray ray;
-    public float timer;
     public Fireabilities fireabilities;
-    public float SpawnedNetId;
+    [SerializeField] float speed;
+    [SyncVar]
+    public float x, y, z;
     // Start is called before the first frame update
     void Start()
     {
-        timer = Time.time;
+        ProjectileDirection = new Vector3(x,y,z);
+        abilities = fireabilities;
+        //timer = Time.time;
         //if (isLocalPlayer
-        ProjectileDirection = MathFunctions.calculateDirection(this.transform.position, playerWhoSpawned.GetComponent<PlayerMovement>().targetPoint);
+        //This works out the Direction of the Vector
+        ProjectileDirection = MathFunctions.calculateDirection(this.transform.position, ProjectileDirection);
+        abilities.SPE[0].effectData.onApplyDamageAndKnockBack += SpellHandler.OnApplyKnockBack;
+        
+        //Debug.Log(ProjectileDirection);
         //fireabilities.Execute(this.gameObject, this.gameObject);
+
     }
 
     // Update is called once per frame
     void Update()
     {
+        Debug.DrawRay(this.transform.position, ProjectileDirection, Color.green, Mathf.Infinity);
         if (hasAuthority)
-        {
+            Direction(ProjectileDirection);
             //This works now but the the Object will not move toward the Proectile Direction as there is no Target Direction on the newly Spawned player camera
-            CmdUpdateFireBallPosition();
-        }
+        
         if (isServer)
-        {
-            RpcTimerDestroy();
-        }
-        //MoveToMouse(ProjectileDirection);
+            //TargetRpcMoveToMouse();
+            RpcTimerDestroy(false);
+            //MoveToMouse(ProjectileDirection);
     }
 
+    void Unsubscribe()
+    {
+        abilities.SPE[0].effectData.onApplyDamageAndKnockBack -= SpellHandler.OnApplyKnockBack;
+    }
     //This will be where the ability has its effect
-    public void AbilityEffect()
+
+    void Direction(Vector3 vector3)
     {
-        Debug.Log("The Ability has hit");
-    }
-
-    Vector3 CalculateDirection(Vector3 Direction, GameObject gameObject)
-    {
-        Vector3 tempVector = new Vector3(0, 0, 0);
-
-        float temp = Direction.x / Direction.z;
-        float tempX = gameObject.transform.position.x - Direction.x;
-        float tempZ = gameObject.transform.position.z - Direction.z;
-        //Here we are calculating the Vector from the Angle
-        temp = Mathf.Atan(tempX / tempZ);
-        tempVector.x = Mathf.Cos(temp);
-        tempVector.z = Mathf.Sin(temp);
-        tempVector.y = 0;
-        //tempX = Mathf.Cos(Direction.y) * Mathf.Cos(Direction.x);
-        //tempZ = Mathf.Cos(Direction.x) * Mathf.Sin(Direction.y);
-        //tempZ = Mathf.Sin(Direction.x);
-        //tempVector = new Vector3(tempX, 0, tempZ);
-
-        //Debug.Log(tempX + " " + tempZ);
-        return tempVector;
+        this.transform.position -= new Vector3(vector3.x, 0, vector3.z) * Time.deltaTime * speed;// * 0.1f;
+        //Vector3 test = new Vector3(vector3.x, 0, vector3.z) * Time.deltaTime * speed;
+        CmdUpdateFireBallPosition(transform.position);
     }
 
     #region Client 
     [Command]
-    public void CmdUpdateFireBallPosition()
+    public void CmdUpdateFireBallPosition(Vector3 Pos)
     {
-        this.transform.position -= ProjectileDirection * Time.deltaTime * 30;
         //Here we need to get the direction of the Direciton vector from the player vector.
-        RpcMoveToMouse(this.transform.position);
+        RpcMoveToMouse(Pos);
+    }
 
+    [ClientRpc]
+    public void RpcMoveToMouse(Vector3 Direction)
+    {
+        if (hasAuthority)
+            return;
+
+        transform.position = Direction;
+        //This updates the Position on the server Side.        
     }
 
     [Command(ignoreAuthority = true)]
@@ -82,28 +80,12 @@ public class LargeFireBall : NetworkBehaviour
         ClientScene.UnregisterPrefab(this.gameObject);
         Destroy(this.gameObject);
     }
-
-  
     //Therse calculations may be better as a static Variable.
-  
-
     #endregion
 
 
     #region Server
-    [ServerCallback]
-    private void OnCollisionEnter(Collision collision)
-    {
-        Debug.Log("This is from the server: " + collision);
-        if (collision.transform.tag == "Player" && collision.transform.GetComponent<NetworkIdentity>().netId != SpawnedNetId)
-        {
-            Debug.Log("Log");
-            collision.transform.gameObject.GetComponent<PlayerMovement>().health = 1;
-            //fireabilities.Execute();
-        }
-
-    }
-
+  
     // this will need to check what Object ID "Instantiated" the object to check and see if it should trigger.
     [ServerCallback]
     private void OnTriggerEnter(Collider collision)
@@ -111,13 +93,14 @@ public class LargeFireBall : NetworkBehaviour
 
         if (collision.transform.tag != "Player")
         {
-            //Do stuff
+            Debug.Log("Collision with something thats not the player: " + collision);
+            RpcTimerDestroy(true);
         }
         if (collision.transform.tag == "Player" && collision.transform.GetComponent<NetworkIdentity>().netId != SpawnedNetId)
         {
             Debug.Log("This is from the server: " + collision);
-            collision.transform.gameObject.GetComponent<PlayerMovement>().health = 1;
-            AbilityEffect();// This is where we will do the effect, Maybe changed.
+            abilities.SPE[0].effectData.onApplyDamageAndKnockBack?.Invoke(collision.GetComponent<PlayerMovement>(), this.transform.position, fireabilities.KnockBack , fireabilities.Damage);
+            // This is where we will do the effect, Maybe changed.
         }
         //Destroy Self
         //Check what the FireBall Hit.
@@ -125,33 +108,28 @@ public class LargeFireBall : NetworkBehaviour
 
     }
 
-
     [ClientRpc]
-    public void RpcMoveToMouse(Vector3 Direction)
+    public void RpcTimerDestroy(bool NotPlayer)
     {
-        this.transform.position = Direction;
-        //This updates the Position on the server Side.        
-    }
-
-    [ClientRpc]
-    public void RpcTimerDestroy()
-    {
-        if (Time.time >= timer + fireabilities.CoolDown)
+        if (NotPlayer)
+        {
+            Debug.Log("ServerSideDestroyed NOT PLAYER");
+            CmdDespawnFireBall();
+            NetworkServer.UnSpawn(this.gameObject);
+            NetworkServer.Destroy(this.gameObject);
+            Unsubscribe();
+        }
+        if (NetworkTime.time >= timer + fireabilities.Duration)
         {
             Debug.Log("ServerSideDestroyed");
             //Here I will have to remove the object from the client aswell
             CmdDespawnFireBall();
+            NetworkServer.UnSpawn(this.gameObject);
             NetworkServer.Destroy(this.gameObject);
-            timer = Time.time;
+            Unsubscribe();
         }
     }
 
-    [TargetRpc]
-    public void TargetgetCurrentObjectPosition(Vector3 Location)
-    {
-        Debug.Log(Location);
-        //this.transform.position = Location;
-    }
 
     #endregion
     //Make a functioin to destroy after time.

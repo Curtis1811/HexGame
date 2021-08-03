@@ -18,11 +18,12 @@ MonoBehaviour:
   discription: Slows Enemys and Deals a small amout of Damage while inside the WhirlPool.
   prefabName: 
   isDefaultAbility: 0
-  coolDown: 3
-  duration: 3
+  coolDown: 5
+  duration: 3.5
   SPE:
   - {fileID: 11400000, guid: bb6c28bf72f47974db37d3a7dad4b819, type: 2}
-  knockback: 0
+  SpellId: 3
+  knockback: 4
   dot: 1
   damage: 10
   status: 

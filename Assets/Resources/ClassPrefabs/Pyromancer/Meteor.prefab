@@ -784,7 +784,7 @@ ParticleSystem:
     m_UseMeshMaterialIndex: 0
     m_UseMeshColors: 1
     alignToDirection: 0
-    m_Texture: {fileID: 10300, guid: 0000000000000000f000000000000000, type: 0}
+    m_Texture: {fileID: 0}
     m_TextureClipChannel: 3
     m_TextureClipThreshold: 0
     m_TextureUVChannel: 0
@@ -4868,7 +4868,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  clientAuthority: 0
+  clientAuthority: 1
   localPositionSensitivity: 0.01
   localRotationSensitivity: 0.01
   localScaleSensitivity: 0.01
@@ -4886,11 +4886,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  ProjectileDirection: {x: 0, y: 0, z: 0}
+  abilities: {fileID: 0}
   playerWhoSpawned: {fileID: 0}
   timer: 0
+  SpawnedNetId: 0
   MovementDirection: {x: 0, y: 0, z: 0}
   fireabilities: {fileID: 11400000, guid: 0e37a6bb7dd4b36488ca94bcfa9a4411, type: 2}
-  SpawnedNetId: 0
 --- !u!135 &7080048089643544595
 SphereCollider:
   m_ObjectHideFlags: 0

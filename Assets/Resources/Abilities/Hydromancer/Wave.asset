@@ -22,8 +22,8 @@ MonoBehaviour:
   duration: 10
   SPE:
   - {fileID: 11400000, guid: 98587626da18d9d4e9f0834ddb1f7a6a, type: 2}
-  SpellId: 1
-  knockback: 0
+  SpellId: 2
+  knockback: 5
   dot: 0
-  damage: 0
+  damage: 4
   status: 

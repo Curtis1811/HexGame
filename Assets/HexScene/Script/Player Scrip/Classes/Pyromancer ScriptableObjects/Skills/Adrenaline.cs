@@ -5,71 +5,124 @@ using Mirror;
 
 public class Adrenaline : SpellBehavior
 {
-
     // Start is called before the first frame update
     public Fireabilities fireabilities;
+
+   
     void Start()
     {
+        playerWhoSpawned = NetworkIdentity.spawned[SpawnedNetId].gameObject;
+
+        // I need a way to select the GameObject Via Server
+        if (isClient)
+            //CmdGetPlayerWhoSpawned();
+        if (isServer)
+            TargetRpcSetPlayerWhoSpawned();
+
         //fireabilities.SPE[0].effectData = new EffectData();
         abilities.SPE[0].effectData.onEffectEnd += SpellHandler.OnSpeedUpOff;
         abilities.SPE[0].effectData.onEffectBegin += SpellHandler.OnSpeedUp;
-
-        //This even works similarly to a speed boost effect.
-        abilities.SPE[0].effectData.onEffectBegin?.Invoke(playerWhoSpawned.GetComponent<PlayerMovement>(), abilities, 3, true);
+        //This even works similarly to a speed boost effect        
         //abilities.SPE[0].ExceuteEffect(abilities, playerWhoSpawned.GetComponent<PlayerMovement>(), playerWhoSpawned.GetComponent<PlayerMovement>());
-        timer = Time.time;
+                
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (hasAuthority)
-            CmdUpdatePosition();
+        if (isClient)
+            //CmdUpdatePosition(playerWhoSpawned.transform.position);
 
-        if (isServer)
-            RpcDespawnOnServer();
+            if (isServer)
+                RpcDespawnOnServer();
+                TargetRpcSetTransform();
     }
 
     #region Client
-    [Command]
-    void CmdUpdatePosition()
+    
+    [Server]
+    [TargetRpc]
+    void TargetRpcDespawnOnClient()
     {
-        this.transform.position = playerWhoSpawned.transform.position;
-        RpcUpdatePosition();
-    }
-
-    void CmdDespawnOnClient()
-    {
-        abilities.SPE[0].effectData.onEffectEnd?.Invoke(playerWhoSpawned.GetComponent<PlayerMovement>(), abilities, 1, true);
-        //This it to unsub from the effect Data as the gameObject is about to be destroyed.
+        abilities.SPE[0].effectData.onEffectEnd?.Invoke(playerWhoSpawned.GetComponent<PlayerMovement>(), abilities, playerWhoSpawned.GetComponent<PlayerMovement>().OriginalScaler, true);
         abilities.SPE[0].effectData.onEffectBegin -= SpellHandler.OnSpeedUp;
         abilities.SPE[0].effectData.onEffectEnd -= SpellHandler.OnSpeedUpOff;
+        Debug.Log("Server Destroying on specific Client.");
+
+    }
+
+    [Command]
+    void CmdDespawnOnClient()
+    {   
+        TargetRpcDespawnOnClient();
+        abilities.SPE[0].effectData.onEffectEnd?.Invoke(playerWhoSpawned.GetComponent<PlayerMovement>(), abilities, playerWhoSpawned.GetComponent<PlayerMovement>().OriginalScaler, true);
+        abilities.SPE[0].effectData.onEffectBegin -= SpellHandler.OnSpeedUp;
+        abilities.SPE[0].effectData.onEffectEnd -= SpellHandler.OnSpeedUpOff;
+
+        //This it to unsub from the effect Data as the gameObject is about to be destroyed.
+        Debug.Log("Destroying on Destroying on All CLients");
         //This is to destroy the GameObject
         ClientScene.UnregisterPrefab(this.gameObject);
         Destroy(this.gameObject);
     }
 
-    #endregion
-
-
-    #region Server
-        [ClientRpc]
-    void RpcUpdatePosition()
-    {
-        this.transform.position = this.transform.position;
-    }
-
     [ClientRpc]
     void RpcDespawnOnServer()
     {
-        if (Time.time >= timer + abilities.Duration)
+        if (NetworkTime.time >= timer + abilities.Duration)
         {
-            Debug.Log("Destroying on ServerSide");
+            Debug.Log("Stored Time" + timer + abilities.Duration + " Current Time" + Time.time );
             CmdDespawnOnClient();
             NetworkServer.Destroy(this.gameObject);
             timer = Time.time;
         }
     }
+
+    #endregion
+
+    [Server]
+    #region Server
+    [TargetRpc]
+    void TargetRpcSetTransform()
+    {
+        this.transform.position = ClientScene.localPlayer.gameObject.transform.position; // The ClientScnee.LocalPlayer Here should be the local players gameobject
+        CmdUpdatePosition(this.transform.position);
+    }
+
+    [Command]
+    void CmdUpdatePosition(Vector3 vector)
+    {
+        this.transform.position = vector;
+        RpcUpdatePosition(this.transform.position);
+    }
+
+    [ClientRpc]
+    void RpcUpdatePosition(Vector3 pos)
+    {
+        // This Send all the clients the correct Position for this GameObject
+        this.transform.position = pos;
+        //Pos is the Position that everyclient will get.
+    }
+
+    [Command]
+    void CmdGetPlayerWhoSpawned()
+    {
+        TargetRpcSetPlayerWhoSpawned();
+    }
+
+    [TargetRpc]
+    void TargetRpcSetPlayerWhoSpawned()
+    {
+        Debug.Log("PlayerSet");
+        playerWhoSpawned = ClientScene.localPlayer.gameObject;
+        abilities.SPE[0].effectData.onEffectBegin?.Invoke(playerWhoSpawned.GetComponent<PlayerMovement>(), abilities, 4, true);
+    }
+
+    #endregion
+    
+
+    #region Sync Events
+    //Here we are going to create a SyncEvent
 
     #endregion
 

@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
-public class Dethbox : MonoBehaviour {
+public class Dethbox : NetworkBehaviour {
 
 	// Use this for initialization
 	void Start () {
@@ -15,8 +16,20 @@ public class Dethbox : MonoBehaviour {
 
     }
 
-    void OnCollisionEnter(Collision collision)
+	[ServerCallback]
+    private void OnTriggerExit(Collider other)
     {
-        Destroy(collision.gameObject, 0.1f);
-    }
+		//Here we need to send an action to the netowrk Manager to destroy them.
+		//NetworkServer.Destroy(other.gameObject);
+		//RpcRemovePlayerFromClients(other.gameObject);
+
+	}
+
+	[ClientRpc]
+	void RpcRemovePlayerFromClients(GameObject gameObject)
+    {
+		//ClientScene.UnregisterPrefab(gameObject);
+		//Destroy(gameObject, 0.1f);
+	}
+
 }

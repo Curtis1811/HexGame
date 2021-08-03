@@ -15,37 +15,32 @@ using System.Management.Instrumentation;
 public class GroundDissapering : NetworkBehaviour
 {
     //GameObject[] groundObjects;
-
     [SerializeField] GameObject HexPrefab;
     [SerializeField] List<GameObject> HexPrefabList = new List<GameObject>();
     [SerializeField] List<GameObject> hex;
     [SerializeField] GameObject[] SolidGround;
-
+    [SerializeField] public Material Redmaterial;
     [SyncVar]
     [SerializeField] int storedRand;
-
     float time;
 
     public override void OnStartServer()
     {
         base.OnStartServer();
-        hex = GameObject.FindGameObjectsWithTag("Ground").ToList<GameObject>();
+        HexPrefabList = GameObject.FindGameObjectsWithTag("Ground").ToList<GameObject>();
         time = Time.time;
        
         if(isServer)
             RpcSpawnHex();
-       
-
-        int rand = Random.Range(0, HexPrefabList.Count);
-        storedRand = rand;
+            int rand = Random.Range(0, HexPrefabList.Count);
+            storedRand = rand;
     }
 
     public override void OnStartClient()
     {
-        
         //base.OnStartClient();
         SolidGroundColor();
-        hex = GameObject.FindGameObjectsWithTag("Ground").ToList<GameObject>();
+        HexPrefabList = GameObject.FindGameObjectsWithTag("Ground").ToList<GameObject>();
         if(isClient)
             CmdSpawnHex(); 
 
@@ -55,16 +50,14 @@ public class GroundDissapering : NetworkBehaviour
     private void Start()
     {
        
-
     }
 
 
     [ServerCallback]
     private void Update()
     {
-        
         // Change this to check if All Clients are Ready; then run
-        if (isServer) {
+        if (isServer) 
             //RpcchangeColor();
             if (Time.time <= time + 5)
             {
@@ -79,15 +72,7 @@ public class GroundDissapering : NetworkBehaviour
                 RpcClientHexRemoval(storedRand);
                 
             }
-        }
-        else
-        {
-           
-        }
-
     }
-
-   
 
     [Server]
     public void hexFunc()
@@ -103,13 +88,12 @@ public class GroundDissapering : NetworkBehaviour
             storedRand = rand;
 
             if (isServer)
-                
                 RpcChangeColor();
 
-
-
-            hex[rand].gameObject.GetComponentInChildren<Collider>().enabled = false;
-            hex[rand].gameObject.GetComponentInChildren<Renderer>().enabled = false;
+            if (hex[rand].gameObject.GetComponentInChildren<Collider>())
+                hex[rand].gameObject.GetComponentInChildren<Collider>().enabled = false;
+                hex[rand].gameObject.GetComponentInChildren<Renderer>().enabled = false;
+            //We need to set this up so it removes backwards
             hex.RemoveAt(rand);
             
             RpcClientHexRemoval(rand);
@@ -121,19 +105,22 @@ public class GroundDissapering : NetworkBehaviour
     [ClientRpc]
     void RpcChangeColor()
     {
-
-        if (HexPrefabList.Count >= 1) { 
-            if (HexPrefabList[storedRand].gameObject.GetComponent<Renderer>().material.color != Color.red)
-            {
-                HexPrefabList[storedRand].gameObject.GetComponent<Renderer>().material.color = Color.red;
-
-            }
-        }
-        
-           
+        if (HexPrefabList.Count >= 1) {
+            
+            if(HexPrefabList[storedRand].gameObject.GetComponent<Renderer>())
+                if (HexPrefabList[storedRand].gameObject.GetComponent<Renderer>().material.color != Color.red)
+                {
+                    HexPrefabList[storedRand].gameObject.GetComponent<Renderer>().material.color = Color.red;
+                }
+            if (HexPrefabList[storedRand].gameObject.GetComponentInChildren<Renderer>())
+                if (HexPrefabList[storedRand].gameObject.GetComponentInChildren<Renderer>().material.color != Color.red)
+                {
+                    HexPrefabList[storedRand].gameObject.GetComponentInChildren<Renderer>().material = Redmaterial;
+                    HexPrefabList[storedRand].gameObject.GetComponentInChildren<Renderer>().material.color = Color.red;
+                }
+        }           
     }
 
-    
     void SolidGroundColor()
     {
         int count = 0;
@@ -150,9 +137,9 @@ public class GroundDissapering : NetworkBehaviour
     [ClientRpc]
     public void RpcSpawnHex()
     {
-        while (HexPrefabList.Count < 3) {
+        while (HexPrefabList.Count < 10) {
             
-            GameObject go = Instantiate(HexPrefab, new Vector3(4, 4, 4), Quaternion.identity);
+            GameObject go = Instantiate(HexPrefab, new Vector3(4, 0, 4), Quaternion.identity);
             go.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
             ClientScene.RegisterPrefab(go);
             NetworkServer.Spawn(go);
@@ -168,17 +155,23 @@ public class GroundDissapering : NetworkBehaviour
     [ClientRpc]
     public void RpcClientHexRemoval(int StoredRand)
     {
-        if (HexPrefabList.Count > 0 ) { 
-            
-            HexPrefabList[StoredRand].gameObject.GetComponent<Renderer>().enabled = false;
+        if (HexPrefabList.Count > 0 ) {
+
+            if(HexPrefabList[StoredRand].gameObject.GetComponent<Renderer>())
+            {
+                HexPrefabList[StoredRand].gameObject.GetComponent<Renderer>().enabled = false;
+                HexPrefabList[StoredRand].gameObject.GetComponent<Collider>().enabled = false;
+            }
+            else if (HexPrefabList[StoredRand].gameObject.GetComponentInChildren<Renderer>()){
+
+                HexPrefabList[StoredRand].gameObject.GetComponentInChildren<Renderer>().enabled = false;
+                HexPrefabList[StoredRand].gameObject.GetComponentInChildren<Collider>().enabled = false;
+            }
+                       
             NetworkServer.UnSpawn(HexPrefabList[StoredRand]);
             HexPrefabList.RemoveAt(StoredRand);
-            int rand = Random.Range(0, HexPrefabList.Count);
-            storedRand = rand;
 
         }
-
-
     }
 
     [Server]

@@ -13,7 +13,7 @@ using UnityEngine.AI;
 public class MyNetworkManager : NetworkManager
 {   
     public Transform playerSpawn;
-    public static GameObject[] SpawnPoint = new GameObject[4];
+    public static GameObject[] SpawnPoint = new GameObject[3];
     public delegate GameObject SpawnDelegate(Vector3 Pos, System.Guid assetID);
     public SpawnDelegate onSpawnDelegate;
 
@@ -23,6 +23,7 @@ public class MyNetworkManager : NetworkManager
     private List<int> PlayerID;
     public GameObject pyromancer;
     public GameObject hydromancer;
+    public GameObject geomancer;
 
     //EventScript evs;
     [Scene] [SerializeField] public string LobbyScene = string.Empty;
@@ -77,9 +78,8 @@ public class MyNetworkManager : NetworkManager
         //GameIsReady?.Invoke(con);
         //evnt = GetComponent<EventScript>();
         Debug.Log("ClientHasConnected");
+        //We can actually parse the Players Class Here
         ClientScene.AddPlayer(con);
-
-
         // When a client Connects a Ready event is fired (Invoked)
         //Debug.Log("ClientConnected!");
         //PlayerID.Add(con.connectionId);
@@ -92,7 +92,13 @@ public class MyNetworkManager : NetworkManager
         
     }
 
-    
+    public override void OnClientDisconnect(NetworkConnection conn)
+    {
+        base.OnClientDisconnect(conn);
+        //Here we need to destroy all Gameobjects that are associated with the Client Connection
+    }
+
+
     public override void OnStartClient()
     {
         Debug.Log("ClientHasStarted");
@@ -102,22 +108,24 @@ public class MyNetworkManager : NetworkManager
     public void assingPlayerClass(NetworkConnection con)
     {
         GameObject player;
-        tempInt = 1; // TESTING REMOVE
+        tempInt = 4; // TESTING REMOVE
+        int index = Random.Range(0, SpawnPoint.Length);
         switch (tempInt)
         {
             case 1:
-                player = Instantiate(pyromancer, playerSpawn);
+                Debug.Log("New Class Added Pyromancer");
+                player = Instantiate(pyromancer, SpawnPoint[index].transform.position, SpawnPoint[index].transform.rotation);
                 player.GetComponent<PyromancerHandler>().abilityData = tempString;
-                ClientScene.RegisterPrefab(player);
                 NetworkServer.AddPlayerForConnection(con, player);
+                ClientScene.RegisterPrefab(player);
                 break;
             
             case 2:
                 Debug.Log("New Class Added Hydromancer");
-                player = Instantiate(hydromancer, playerSpawn);
+                player = Instantiate(hydromancer, SpawnPoint[index].transform.position, SpawnPoint[index].transform.rotation);
                 //player.GetComponent<PyromancerHandler>().abilityData = tempString;
-                ClientScene.RegisterPrefab(player);
                 NetworkServer.AddPlayerForConnection(con, player);
+                ClientScene.RegisterPrefab(player);
                 //player.GetComponent<HydromancerHandler>().abilityData = tempString;
                 //ClientScene.RegisterPrefab(player);
                 //NetworkServer.AddPlayerForConnection(con, player);
@@ -129,6 +137,10 @@ public class MyNetworkManager : NetworkManager
             
             case 4:
                 Debug.Log("New Class Added Geomancer");
+                player = Instantiate(geomancer, SpawnPoint[index].transform.position, SpawnPoint[index].transform.rotation);
+                //player.GetComponent<PyromancerHandler>().abilityData = tempString;
+                NetworkServer.AddPlayerForConnection(con, player);
+                ClientScene.RegisterPrefab(player);
                 break;
       
             default:

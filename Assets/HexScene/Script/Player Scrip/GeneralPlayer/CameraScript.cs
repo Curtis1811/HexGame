@@ -6,7 +6,8 @@ public class CameraScript : MonoBehaviour {
 
     public Transform player;
     public float height;
-
+    public float SmoothSpeed = 0.25f;
+    
 	// Use this for initialization
 	void Start () {
 
@@ -20,9 +21,9 @@ public class CameraScript : MonoBehaviour {
         pos.x = player.position.x;
         pos.y = player.position.y + height;
         pos.z = player.position.z;
-        this.transform.position = pos;
+        Vector3 SmoothedPosition = Vector3.Lerp(transform.position, pos, SmoothSpeed * Time.deltaTime);
+        this.transform.position = SmoothedPosition;
         this.transform.rotation = Quaternion.Euler(90,90,0);
-        //this.transform.rotation
 
     }
 }

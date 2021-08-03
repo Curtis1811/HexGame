@@ -18,7 +18,7 @@ MonoBehaviour:
   discription: This is a large meteor that will destroy Hex's
   prefabName: Meteor
   isDefaultAbility: 0
-  coolDown: 10
+  coolDown: 2
   duration: 3
   SPE:
   - {fileID: 0}
@@ -26,5 +26,5 @@ MonoBehaviour:
   SpellId: 4
   knockback: 10
   dot: 2
-  damage: 2
+  damage: 20
   status: 

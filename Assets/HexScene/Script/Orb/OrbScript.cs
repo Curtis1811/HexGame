@@ -17,7 +17,6 @@ public class OrbScript : NetworkBehaviour
     void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Player") {
-            Debug.Log("ok");
             ClientScene.UnregisterPrefab(this.gameObject);
             Destroy(this.gameObject);
         }

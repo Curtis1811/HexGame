@@ -73,7 +73,7 @@ public class Hydromancer : NetworkBehaviour
                         Debug.Log("OnCooldown");
                         return;
                     }
-                    CmdWave();
+                    CmdWave(playermove.targetPoint);
                     CD_system.PutOnCooldown(WavePrefab.GetComponent<WaterWave>().WaterAbilities);
                     //Debug.Log(ph.PyromancerChosenList[1]);
                 }
@@ -88,7 +88,7 @@ public class Hydromancer : NetworkBehaviour
                         Debug.Log("OnCooldown");
                         return;
                     }
-                    CmdWhirlPool();
+                    CmdWhirlPool(playermove.targetPoint);
                     CD_system.PutOnCooldown(WhirlPoolPrefab.GetComponent<Whirlpool>().WaterAbilities);
                     //Debug.Log(ph.PyromancerChosenList[2].name);
                 }
@@ -97,7 +97,6 @@ public class Hydromancer : NetworkBehaviour
                 {
                     if (CD_system.isOnCooldown(BubbleShieldPrefab.GetComponent<BubbleShield>().WaterAbilities.id))
                     {
-
                         Debug.Log("OnCooldown");
                         return;
                     }
@@ -114,20 +113,27 @@ public class Hydromancer : NetworkBehaviour
 
     #region Client  
     [Command]
-    void CmdWave()
+    void CmdWave(Vector3 MousePosition)
     {
         GameObject Wave = Instantiate(WavePrefab, this.transform.position, this.transform.rotation);
-        Wave.GetComponent<WaterWave>().playerWhoSpawned = this.gameObject;
+
+        Wave.GetComponent<WaterWave>().x = MousePosition.x;
+        Wave.GetComponent<WaterWave>().y = MousePosition.y;
+        Wave.GetComponent<WaterWave>().z = MousePosition.z;
+        Wave.GetComponent<WaterWave>().timer = NetworkTime.time;
         Wave.GetComponent<WaterWave>().SpawnedNetId = this.netId;
         NetworkServer.Spawn(Wave, this.gameObject);
         ClientScene.RegisterPrefab(Wave);
     }
 
     [Command]
-    void CmdWhirlPool()
+    void CmdWhirlPool(Vector3 MousePosition)
     {
         GameObject WhirlPool = Instantiate(WhirlPoolPrefab, playermove.targetPoint, Quaternion.identity);
-        WhirlPool.GetComponent<Whirlpool>().playerWhoSpawned = this.transform.gameObject;
+        WhirlPool.GetComponent<Whirlpool>().x = MousePosition.x;
+        WhirlPool.GetComponent<Whirlpool>().y = MousePosition.y;
+        WhirlPool.GetComponent<Whirlpool>().z = MousePosition.z;
+        WhirlPool.GetComponent<Whirlpool>().timer = NetworkTime.time;
         WhirlPool.GetComponent<Whirlpool>().SpawnedNetId = this.netId;
         NetworkServer.Spawn(WhirlPool, this.gameObject);
         ClientScene.RegisterPrefab(WhirlPool);

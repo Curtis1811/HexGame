@@ -3,7 +3,10 @@ guid: b1fbfdede65bf4744b25db085d2d2637
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - abilities: {fileID: 11400000, guid: 81b84408f334d20478b520ba4c614c97, type: 2}
+  - playerWhoSpawned: {instanceID: 0}
+  - fireabilities: {fileID: 11400000, guid: 81b84408f334d20478b520ba4c614c97, type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

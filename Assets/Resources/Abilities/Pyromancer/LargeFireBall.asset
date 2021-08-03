@@ -18,13 +18,12 @@ MonoBehaviour:
   discription: Bigger FireBall More Damage
   prefabName: LargeFireBall
   isDefaultAbility: 1
-  coolDown: 5
-  duration: 3
+  coolDown: 1
+  duration: 10
   SPE:
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 11400000, guid: 190aa3c7bc524a843bc5605472c978e2, type: 2}
   SpellId: 3
   knockback: 4
   dot: 0
-  damage: 0
+  damage: 5
   status: 

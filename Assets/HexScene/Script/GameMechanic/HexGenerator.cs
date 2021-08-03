@@ -12,7 +12,6 @@ using UnityEngine.UI;
 public class HexGenerator : NetworkBehaviour
 {
     [SerializeField] GameObject hexPrefab;
-
     [SerializeField] float CircleRadius;
     [SerializeField] List<GameObject> hex;
     [SerializeField] float hexRadius;
@@ -45,8 +44,6 @@ public class HexGenerator : NetworkBehaviour
     void Update()
     {
          
-
-        
     }
 
     // sk = 3Ksqr + 3k + 1 this equals the amount of  
@@ -84,7 +81,6 @@ public class HexGenerator : NetworkBehaviour
         float PVM = Vector3.Magnitude(parsedVector);
         PVM = Mathf.Sqrt(PVM);
         Vector3 temp = parsedVector;
-        
         temp.x = PVM * Mathf.Cos(angle);
         temp.z = PVM * Mathf.Sin(angle);
         temp.y = 0;

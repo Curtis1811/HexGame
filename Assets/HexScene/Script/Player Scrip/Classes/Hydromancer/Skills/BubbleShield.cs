@@ -9,7 +9,7 @@ public class BubbleShield : NetworkBehaviour
     public GameObject PlayerWhoSpawned;
     public float SpawnedNID;
     public WaterAbilities WaterAbilities;
-
+    
     void Start()
     {
         
@@ -20,6 +20,7 @@ public class BubbleShield : NetworkBehaviour
     {
         if (hasAuthority)
             CmdUpdatePosition();
+        
     }
 
     #region Client

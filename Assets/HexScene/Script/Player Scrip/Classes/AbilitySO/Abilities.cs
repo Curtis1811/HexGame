@@ -30,12 +30,16 @@ public abstract class Abilities : ScriptableObject , ICooldownInterface
     [Header("Discription")]
     [TextArea(15, 20)]
     [SerializeField] private string discription;
-    [SerializeField] private string prefabName; // Maybe Obsolete
+    [SerializeField] private string prefabName; //Maybe Obsolete
     [SerializeField] public bool isDefaultAbility;
 
     [Header("Spell Variables")]
+    //This value will deal with the cooldown of the spells
     [SerializeField] private float coolDown;
+    //This deals with the duration of the spell.
     [SerializeField] private float duration;
+    //This will deal with the any value that the effect will have, From dmg to amount of a shield.
+    [SerializeField] public float Value;
     [SerializeField] public List<SpellEffects> SPE;
     [SerializeField] public int SpellId = 1;
     

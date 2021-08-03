@@ -3,33 +3,32 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
-public class Meteor : NetworkBehaviour
+public class Meteor : SpellBehavior
 {
-    public GameObject playerWhoSpawned;
-
-    //This is the amount of time the Object is on screen (Encse It doersnt Collide with anything.
-    public float timer;
-    public Vector3 MovementDirection;
-    public Fireabilities fireabilities; // We can maybe assing these when the game is loaded
-    public float SpawnedNetId;
     
+    //This is the amount of time the Object is on screen (Encse It doersnt Collide with anything.
+    public Fireabilities fireabilities; // We can maybe assing these when the game is loaded
+    public float speed;
+    [SyncVar]
+    public float x, y, z;
     // Start is called before the first frame update
     void Start()
     {
-        timer = Time.time;
+        ProjectileDirection = new Vector3(x, y, z);
         //MovementDirection = calculateDirection(MovementDirection);
-        MovementDirection = MathFunctions.calculateDirection(this.transform.position , playerWhoSpawned.GetComponent<PlayerMovement>().targetPoint);
-
+        ProjectileDirection = MathFunctions.calculateDirection(this.transform.position , ProjectileDirection);
+        speed = 20;
+        //abilities.SPE[0].effectData.onApplyDamageAndKnockBack += SpellHandler.OnApplyKnockBack;
     }
 
     // Update is called once per frame
     void Update()
     {
-        Debug.DrawRay(this.transform.position, MovementDirection, Color.green,Mathf.Infinity);
+        Debug.DrawRay(this.transform.position, ProjectileDirection, Color.green,Mathf.Infinity);
         
         if (hasAuthority)
         {
-            CmdMoveMeteor();
+            Direction(ProjectileDirection);
         }
         if (isServer)
         {
@@ -37,26 +36,18 @@ public class Meteor : NetworkBehaviour
         }
     }
 
-    Vector3 calculateDirection(Vector3 Direction)
+    void Direction(Vector3 vector3)
     {
-
-        Vector3 temp = new Vector3(0, 0, 0);
-        float tempX = Mathf.Cos(Direction.y) * Mathf.Cos(Direction.x);
-        float tempY = Mathf.Cos(Direction.x) * Mathf.Sin(Direction.y);
-        float tempZ = Mathf.Sin(Direction.x);
-        temp = new Vector3(tempX, tempZ, tempY);
-        Debug.DrawRay(this.transform.position, Direction, Color.green);
-        Debug.Log(temp);
-        return temp;
+        this.transform.position -= vector3 * Time.deltaTime * speed;// * 0.1f;
+        CmdMoveMeteor(this.transform.position);
     }
 
 
     #region ClientSide
     [Command]
-    public void CmdMoveMeteor()
+    public void CmdMoveMeteor(Vector3 movementDirec)
     {
-        this.transform.position -= MovementDirection  * Time.deltaTime * 12;
-        RpcUpdateMeteorPosition(this.transform.position);
+        RpcUpdateMeteorPosition(movementDirec);
     }
 
     //Destroy the GameObject
@@ -76,22 +67,27 @@ public class Meteor : NetworkBehaviour
     [ClientRpc]
     public void RpcUpdateMeteorPosition(Vector3 Direction)
     {
+        if (!hasAuthority)
+            return;
+
         this.transform.position = Direction;
     }
 
     [ClientRpc]
-    public void RpcDestroyObject( bool NotPlayer)
+    public void RpcDestroyObject(bool NotPlayer)
     {
         if (NotPlayer)
         {
             CmdDespawnFireBall();
+            NetworkServer.UnSpawn(this.gameObject);
             NetworkServer.Destroy(this.gameObject);
         }
-        if (Time.time >= timer + 10)
+        if (NetworkTime.time >= timer + fireabilities.Duration)
         {
             Debug.Log("ServerSideDestroyed");
             //Here I will have to remove the object from the client aswell
             CmdDespawnFireBall();
+            NetworkServer.UnSpawn(this.gameObject);
             NetworkServer.Destroy(this.gameObject);
             timer = Time.time;
         }

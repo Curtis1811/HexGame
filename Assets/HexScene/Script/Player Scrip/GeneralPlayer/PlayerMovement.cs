@@ -5,15 +5,14 @@ using UnityEngine.Networking;
 using System.Runtime.InteropServices;
 
 using Mirror;
-
-
+using System;
 
 public class PlayerMovement : NetworkBehaviour
 {
     public UnityEngine.Camera playerCamera;
     public GameObject playerCameraGameObject;
     public GameObject playerCameraGameObjectReferance;
-
+    public float playerYSpeed;
     [Header("NetworkVariables")]
     //This Health is for Testing; CHANGE THESE TO PROTECTED AND USD FUNCTIONS TO CHANGE THEM
     [SyncVar]
@@ -22,21 +21,19 @@ public class PlayerMovement : NetworkBehaviour
     public int stamina;
     [SyncVar]
     public float scaler; // this is speed
-    public float OriginalScaler;
-    float knockback;
+    public float OriginalScaler; // this is the players Original Speed
+    [SyncVar]
+    public float knockback;
     bool isAlive;
     bool isReady;
     [SyncVar]
     public bool CanShoot;
-
+    public float knockbackTimer;
 
     [Header("Network Stuff")]    //We need to add a stun effect
     public Vector3 targetPoint;
     int NetworkId;
 
-    //Test
-
-    float x, y, z;
 
     //Here we are setting up delagets TESTING
     public delegate void SpeedChange(float SpeedAmount);
@@ -45,26 +42,32 @@ public class PlayerMovement : NetworkBehaviour
 
     [SyncEvent]
     public event SpeedChange EventOnSpeedChange;
+    [SyncEvent]
     public event Stunned EventOnStunned;
+    [SyncEvent]
     public event DamageRecieved EventOnDamageRecieved;
-
-    Vector3 testVector;
+    [SyncVar]
+    public Vector3 testVector;
 
     private void Awake()
     {
-        health = 100;
+        health = 0;
         stamina = 100;
         knockback = 0;
-        scaler = 1;
-        OriginalScaler = 1;
+        scaler = 2f;
+        OriginalScaler = 2;
         CanShoot = true;
     }
 
     void Start() {
-
-        playerCameraGameObjectReferance = Instantiate<GameObject>(playerCameraGameObject, this.transform.position, Quaternion.identity) as GameObject;
+        playerYSpeed = 0;
+        //playerCameraGameObjectReferance = Instantiate<GameObject>(playerCameraGameObject, this.transform.position, Quaternion.identity) as GameObject;
+        knockbackTimer = Time.time;
+        //NetworkServer.Spawn(playerCameraGameObjectReferance, this.gameObject);
 
         if (isLocalPlayer) {
+            playerCameraGameObjectReferance = Instantiate<GameObject>(playerCameraGameObject, this.transform.position, Quaternion.identity) as GameObject;
+            //NetworkServer.Spawn(playerCameraGameObjectReferance, this.gameObject);
             playerCameraGameObjectReferance.SetActive(true);
             playerCameraGameObjectReferance.GetComponent<CameraScript>().player = this.gameObject.transform;
             playerCamera = playerCameraGameObjectReferance.GetComponent<Camera>();
@@ -72,7 +75,7 @@ public class PlayerMovement : NetworkBehaviour
         }
         else
         {
-            playerCameraGameObjectReferance.SetActive(false);
+            //playerCameraGameObjectReferance.SetActive(false);
         }
     }
 
@@ -89,7 +92,21 @@ public class PlayerMovement : NetworkBehaviour
             faceMouse();
 
             CmdUpdatePlayerPosition(this.transform.position, this.transform.rotation);
-            
+            isBeingKnockedBack();
+            checkPlayerHeight();
+        }
+    }
+
+    [Client]
+    private void checkPlayerHeight()
+    {
+        if (transform.position.y < 1.7f) {
+            Debug.Log(transform.position.y);
+            playerYSpeed = -10;
+        }
+        else
+        {
+            playerYSpeed = 0;
         }
     }
 
@@ -98,24 +115,25 @@ public class PlayerMovement : NetworkBehaviour
     {
         //sprint();
         //Here we have tom check and see if we need to apply KockBack; If this is the case we need to stop the player from moving while they are being knocked back.
-        isBeingKnockedBack();
-        this.transform.position += testVector* Time.deltaTime * knockback; //Need way more refining.
+
+        //this.transform.position += testVector* Time.deltaTime * knockback; //Need way more refining.
+        //Here what wsprinte want to do is reduce the knockback until 0
 
         if (Input.GetKey("w"))
         {
-            this.transform.position += new Vector3(5, 0, 0) * Time.deltaTime * scaler;
+            this.transform.position += new Vector3(5, playerYSpeed, 0) * Time.deltaTime * scaler;
         }
         if (Input.GetKey("s"))
         {
-            this.transform.position += new Vector3(-5, 0, 0) * Time.deltaTime * scaler;
+            this.transform.position += new Vector3(-5, playerYSpeed, 0) * Time.deltaTime * scaler;
         }
         if (Input.GetKey("d"))
         {
-            this.transform.position += new Vector3(0, 0, -5) * Time.deltaTime * scaler;
+            this.transform.position += new Vector3(0, playerYSpeed, -5) * Time.deltaTime * scaler;
         }
         if (Input.GetKey("a"))
         {
-            this.transform.position += new Vector3(0, 0, 5) * Time.deltaTime * scaler;
+            this.transform.position += new Vector3(0, playerYSpeed, 5) * Time.deltaTime * scaler;
         }
 
     }
@@ -123,13 +141,15 @@ public class PlayerMovement : NetworkBehaviour
     {
         if (Input.GetKey(KeyCode.LeftShift) == true)
         {
-            scaler = OriginalScaler * 2;
+            scaler = OriginalScaler + 3;
         }
         else
         {
             scaler = OriginalScaler;
         }
     }
+
+    [Client]
     void faceMouse()
     {
         Plane PlayerPlane = new Plane(Vector3.up, transform.position);
@@ -150,25 +170,44 @@ public class PlayerMovement : NetworkBehaviour
             //This does work But we need to give the player a new camera
         }
     }
+
+    [Client]
     void isBeingKnockedBack()
     {
-        //Here is where we would starta  corutine
+
+        this.transform.position += testVector * Time.deltaTime * knockback;
+        if (knockback == 0)
+            testVector = new Vector3(0, 0, 0);
+        CmdKnockBack(knockback);
+
+        if (Time.time >= knockbackTimer + 3f)
+            if (knockback > 0)
+                knockbackTimer = Time.time;
+
+        knockback = Mathf.Max(knockback - 0.3f, 0f);
+
+        //We want to do the calculation to reduce the kickback every 0.3 seconds by 1
+        // once it reaches zero we set being kocked back to false and we set the knockback direction to 0,0,0;
     }
 
     //Here we are doing to create some functions to get the mouse world Position Since all player objects will ahve a playmovements we can pass this to any class The player has
     //May have to move this to Different classes. 
     //WE are creating this here becasye we ahve a Face mouse Function that has data. 
+    [Client]
     public static Vector3 GetMouseWorldPosition()
     {
         Vector3 TempVec = GetMouseWorldPositionWithZ(Input.mousePosition, UnityEngine.Camera.main);
         TempVec.y = 0;
         return TempVec;
     }
+
+    [Client]
     public static Vector3 GetMouseWorldPositionWithZ(Vector3 screenPosition, UnityEngine.Camera mainCamera)
     {
         Vector3 tempVec = mainCamera.ScreenToWorldPoint(screenPosition);
         return tempVec;
     }
+
 
     #region Synced Events
     public void setSpeed(float SpeedAmount)
@@ -177,6 +216,9 @@ public class PlayerMovement : NetworkBehaviour
         EventOnSpeedChange?.Invoke(SpeedAmount);
     }
 
+    //public void CmdSetSpeed() => setSpeed(3);
+
+   
     public void setStun(bool Stunned, float time)
     {
         CanShoot = Stunned;
@@ -184,22 +226,23 @@ public class PlayerMovement : NetworkBehaviour
         CmdEffectTiming(time);
 
     }
-
+  
     public void ApplyDamage(float Damage)
     {
+        Debug.Log("Apply Damage: " + Damage);
         health += Damage;
-        Debug.Log(Damage);
         EventOnDamageRecieved?.Invoke(Damage);
         CmdDealDamage(health);
     }
 
+   
     public void ApplyKnockBack(float knockBackAmount,Vector3 ProjectileDirection)
     {
         Debug.Log("ApplyKnockBack");
-        knockback += knockBackAmount;
-        Debug.Log(MathFunctions.calculateDirection(this.transform.position, ProjectileDirection));
+        knockback = health;
         EventOnDamageRecieved?.Invoke(knockBackAmount); //this will be where we will apply the KnockBack
-        testVector =  MathFunctions.calculateDirection(this.transform.position, ProjectileDirection);
+        testVector = MathFunctions.calculateDirection(this.transform.position, ProjectileDirection);
+        CmdKnockBack(health);
     }
 
     #endregion
@@ -249,9 +292,16 @@ public class PlayerMovement : NetworkBehaviour
     }
 
     [Command]
+    public void CmdKnockBack(float knockback)
+    {
+        this.knockback = knockback;
+    }
+
+    [Command]
     public void CmdChangeSpeed(float SpeedChange)
     {
         scaler = SpeedChange;
+        setSpeed(SpeedChange);
     }
 
     [Command]
