@@ -9,6 +9,7 @@ public class SpellBehavior : NetworkBehaviour
     [Header("Spell Data")]
     public Vector3 ProjectileDirection;
     public Abilities abilities;
+    
     public GameObject playerWhoSpawned;
     //This may have to be changed to Scripable Objects
     [SyncVar]

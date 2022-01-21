@@ -7,6 +7,8 @@ public class CooldownSystem : MonoBehaviour
     //Here is where we are going to handle all the data that our Cooldown Had
     [SerializeField] public List<CooldownData> cooldown = new List<CooldownData>();
 
+    //In here wea re going to have some kind of Charge System.
+
     public void Update()
     {
         ProceessCooldown();

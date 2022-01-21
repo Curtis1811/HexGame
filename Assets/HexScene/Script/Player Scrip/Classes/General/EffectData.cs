@@ -7,7 +7,7 @@ public class EffectData
     public delegate void EffectStateHandler(PlayerMovement pm, Abilities abilities, float Ammount, bool StateTrue);
     public delegate void UpdateEventHandler(PlayerMovement pm, Abilities abilities, float Deltatime);
     public delegate void ApplyDamageAndKnockBack(PlayerMovement user, Vector3 ProjectilePos, float KnockBack, float Damage);
-
+    public delegate void ApplyFlatDamage(PlayerMovement user, float Damage);
 
     //This is called when an effect begins
     public EffectStateHandler onEffectBegin;
@@ -17,6 +17,7 @@ public class EffectData
     public UpdateEventHandler onEffectUpdate;
     //This is to parse the correct amount of damage to a specific place
     public ApplyDamageAndKnockBack onApplyDamageAndKnockBack;
+    public ApplyFlatDamage onApplyFlatDamage;
 
 
 

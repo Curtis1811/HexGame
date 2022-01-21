@@ -123,7 +123,7 @@ public class MyNetworkManager : NetworkManager
             case 2:
                 Debug.Log("New Class Added Hydromancer");
                 player = Instantiate(hydromancer, SpawnPoint[index].transform.position, SpawnPoint[index].transform.rotation);
-                //player.GetComponent<PyromancerHandler>().abilityData = tempString;
+                player.GetComponent<HydromancerHandler>().abilityData = tempString;
                 NetworkServer.AddPlayerForConnection(con, player);
                 ClientScene.RegisterPrefab(player);
                 //player.GetComponent<HydromancerHandler>().abilityData = tempString;
@@ -138,7 +138,7 @@ public class MyNetworkManager : NetworkManager
             case 4:
                 Debug.Log("New Class Added Geomancer");
                 player = Instantiate(geomancer, SpawnPoint[index].transform.position, SpawnPoint[index].transform.rotation);
-                //player.GetComponent<PyromancerHandler>().abilityData = tempString;
+                player.GetComponent<GeomancerHandler>().abilityData = tempString;
                 NetworkServer.AddPlayerForConnection(con, player);
                 ClientScene.RegisterPrefab(player);
                 break;

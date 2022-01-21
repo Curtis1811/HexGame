@@ -5,7 +5,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "EarthAbilities", menuName = "AbilitySystem/Abilites/EarthAbilities")]
 public class EarthAbilities : Abilities
 {
-
     [SerializeField] private float knockback;
     //How much % the Player will recieve
     [SerializeField] private float dot;
@@ -25,6 +24,7 @@ public class EarthAbilities : Abilities
         foreach (SpellEffects effect in SPE)    
         {
             //effect.ExceuteEffect(this, go, player);
+            
         }
     }
 }

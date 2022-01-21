@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
-public class Hydromancer : NetworkBehaviour
+public class Hydromancer : NetworkBehaviour 
 {
     string[] abil = new string[4];
-    GameObject test;
     [TextArea(10, 30)]
     public string discription = "Water!";
     public new string name = "Hydromancer";

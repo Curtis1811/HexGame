@@ -120,15 +120,17 @@ public class FireBall : SpellBehavior
         {
             Debug.Log("ServerSideDestroyed NOT PLAYER");
             CmdDespawnFireBall();
+            Unsubscribe();
             NetworkServer.UnSpawn(this.gameObject);
             NetworkServer.Destroy(this.gameObject);
-            Unsubscribe();
+            
         }
         if (NetworkTime.time >= timer + abilities.Duration)
         {
             Debug.Log("ServerSideDestroyed");
             //Here I will have to remove the object from the client aswell
             CmdDespawnFireBall();
+            Unsubscribe();
             NetworkServer.UnSpawn(this.gameObject);
             NetworkServer.Destroy(this.gameObject);
             Unsubscribe();

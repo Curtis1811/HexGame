@@ -10,12 +10,12 @@ public class Effects : SpellEffects
 {
     public override event EffectEvent onEffect;
     SpellEffectType type = SpellEffectType.Status;
-
     public enum StatusType
     {
         stunned,
         slowed,
-        speedIncrease
+        speedIncrease,
+        none
     }
 
     /*
@@ -27,9 +27,7 @@ public class Effects : SpellEffects
 
         //Here is where we will invoke the onEffect I think.
         Debug.Log("This is a Status SpellEffect");
-    }*/
-
-    
+    }*/    
 }
 
 

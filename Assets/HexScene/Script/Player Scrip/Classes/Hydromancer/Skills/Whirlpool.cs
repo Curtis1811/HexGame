@@ -5,7 +5,6 @@ using Mirror;
 
 public class Whirlpool : SpellBehavior
 {
-   
     // Start is called before the first frame update
     public WaterAbilities WaterAbilities;
     public List<GameObject> CollidedPlayer;

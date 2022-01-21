@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
-public class MudWall : NetworkBehaviour {
+public class MudWall : SpellBehavior {
     public GameObject PlayerWhoSpawned;
     public float SpawnedNID;
     //public EarthAbilities WaterAbilities;
@@ -18,7 +18,7 @@ public class MudWall : NetworkBehaviour {
     // Update is called once per frame
     void Update()
     {
-         if (hasAuthority)
+        if (hasAuthority)
             CmdSpawnWall();
     }
 

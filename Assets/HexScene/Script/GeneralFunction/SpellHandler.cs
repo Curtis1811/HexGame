@@ -8,7 +8,6 @@ public static class SpellHandler
 {
     // IN HERE WE COULD MOST LIKLETY RETURN WHAT WE WANT SO WE DONT HAVE TO HANDEL EVREYTHING IN THE PLAYER SCIRPT
 
-
     // All these need to do is hold the effects that will occure.
     public static void OnEffect_Stun(PlayerMovement User, Abilities abilityUsed, float Amount, bool isStunned)
     {
@@ -19,7 +18,7 @@ public static class SpellHandler
     public static void OnEffect_Heal(PlayerMovement user, Abilities abilityUsed)
     {
         Debug.Log("We are setting the Health here");
-        user.health += 10;
+        user.health += abilityUsed.Value;
     }
     
     public static void OnDragEffect(GameObject gameObject, PlayerMovement user, PlayerMovement PlayerToDrag)
@@ -52,7 +51,6 @@ public static class SpellHandler
     {
         Debug.Log("Damage");
         user.ApplyDamage(DamageAmount);
-        
     }
 
     public static void OnApplyKnockBack(PlayerMovement user, Vector3 ProjectilePos, float KnockBackAmount , float Damage)

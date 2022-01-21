@@ -38,19 +38,20 @@ public class AbilitySelector : MonoBehaviour
         switch (characterClass)
         {
             case 1:
-                
                 AbilityList.Clear();
                 AbilityList = Resources.LoadAll<Abilities>("Abilities/Pyromancer").ToList<Abilities>();
             break;
             case 2:
+                AbilityList.Clear();
                 AbilityList = Resources.LoadAll<Abilities>("Abilities/Hydromancer").ToList<Abilities>();
-                break;
+            break;
             case 3:
-                //AirList = Resources.LoadAll<Aireabilities>("Abilities/Aeromancer").ToList(); 
-                break;
+               //Aeromancer
+            break;
             case 4:
-                // To-DO
-                break;
+                 AbilityList.Clear();
+                AbilityList = Resources.LoadAll<Abilities>("Abilities/Geomancer").ToList<Abilities>();
+            break;
             default:
                 Debug.LogError("No Resources Found.");
                 break;

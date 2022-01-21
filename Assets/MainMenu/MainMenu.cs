@@ -58,7 +58,7 @@ public class MainMenu : MonoBehaviour
                 break;
             case "Areomancer":
                 AbilitySelectorPointer.characterClass = 3;
-                Debug.Log("Areomancer");
+                Debug.Log("Aeromancer");
                 break;
             case "Geomancer":
                 AbilitySelectorPointer.characterClass = 4;

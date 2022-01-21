@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Networking;
 using System.Runtime.InteropServices;
-
 using Mirror;
 using System;
 
@@ -87,10 +86,11 @@ public class PlayerMovement : NetworkBehaviour
             return;
 
         if (isLocalPlayer) {
-            if (CanShoot == true)
+            if (CanShoot == true){
                 movement();
-            faceMouse();
-
+                faceMouse();
+            }
+            
             CmdUpdatePlayerPosition(this.transform.position, this.transform.rotation);
             isBeingKnockedBack();
             checkPlayerHeight();

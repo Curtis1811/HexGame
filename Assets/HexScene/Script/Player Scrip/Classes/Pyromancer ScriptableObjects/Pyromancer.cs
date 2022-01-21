@@ -62,6 +62,7 @@ public class Pyromancer : NetworkBehaviour //MonoBehaviour//PyromancerHandler
             keyChecker(playermove.CanShoot);
     }
 
+
     [Client]
     public void keyChecker(bool CanShoot)
     {
@@ -108,7 +109,7 @@ public class Pyromancer : NetworkBehaviour //MonoBehaviour//PyromancerHandler
             }
         }
     }
-
+    
     public void KeyAssinging(List<Fireabilities> ChosenList)
     {
             
