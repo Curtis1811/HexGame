@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4247e81f116e7f4dab45c8130cbb58c, type: 3}
+  m_Name: EarthClap
+  m_EditorClassIdentifier: 
+  name: EarthClap
+  icon: {fileID: 21300008, guid: 9ba453ff7c6124209b57da4cd176d458, type: 3}
+  type: 3
+  SpawnType: 1
+  discription: 
+  prefabName: EarthClapPrefab
+  isDefaultAbility: 1
+  coolDown: 1
+  duration: 1
+  Value: 2.5
+  SPE:
+  - {fileID: 11400000, guid: 98587626da18d9d4e9f0834ddb1f7a6a, type: 2}
+  - {fileID: 11400000, guid: af800fc58444611448029327f4d2d195, type: 2}
+  SpellId: 0
+  Charge: 0
+  Prefab: {fileID: 7580511841596349263, guid: 78f0a067765292d448a71e45c536997c, type: 3}
+  knockback: 10
+  dot: 0
+  damage: 1
+  status: 
