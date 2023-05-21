@@ -136,7 +136,7 @@ public abstract class Classes : NetworkBehaviour
         ObjectToSpawn.GetComponent<SpellBehavior>().playerWhoSpawned = this.gameObject;
         ObjectToSpawn.GetComponent<SpellBehavior>().SpawnedNetId = this.netId;
         NetworkServer.Spawn(ObjectToSpawn,this.gameObject);
-        ClientScene.RegisterPrefab(ObjectToSpawn);
+        NetworkClient.RegisterPrefab(ObjectToSpawn);
     }
 
 
@@ -148,7 +148,7 @@ public abstract class Classes : NetworkBehaviour
         ObjectToSpawn.GetComponent<SpellBehavior>().playerWhoSpawned = this.gameObject;
         ObjectToSpawn.GetComponent<SpellBehavior>().SpawnedNetId = this.netId;
         NetworkServer.Spawn(ObjectToSpawn,this.gameObject);
-        ClientScene.RegisterPrefab(ObjectToSpawn);
+        NetworkClient.RegisterPrefab(ObjectToSpawn);
     }
     void CmdAbilityThreePrefab(Vector3 Position, Quaternion Rotation){
         GameObject ObjectToSpawn = Instantiate(AbilityThreePrefab, CastPoint.transform.position, playermove.transform.rotation);
@@ -157,7 +157,7 @@ public abstract class Classes : NetworkBehaviour
         ObjectToSpawn.GetComponent<SpellBehavior>().playerWhoSpawned = this.gameObject;
         ObjectToSpawn.GetComponent<SpellBehavior>().SpawnedNetId = this.netId;
         NetworkServer.Spawn(ObjectToSpawn,this.gameObject);
-        ClientScene.RegisterPrefab(ObjectToSpawn);
+        NetworkClient.RegisterPrefab(ObjectToSpawn);
     }
     void CmdAbilityFourPrefab(Vector3 Position, Quaternion Rotation){
         GameObject ObjectToSpawn = Instantiate(AbilityFourPrefab, Position, playermove.transform.rotation);
@@ -166,7 +166,7 @@ public abstract class Classes : NetworkBehaviour
         ObjectToSpawn.GetComponent<SpellBehavior>().playerWhoSpawned = this.gameObject;
         ObjectToSpawn.GetComponent<SpellBehavior>().SpawnedNetId = this.netId;
         NetworkServer.Spawn(ObjectToSpawn,this.gameObject);
-        ClientScene.RegisterPrefab(ObjectToSpawn);
+        NetworkClient.RegisterPrefab(ObjectToSpawn);
     }
 
     public void GameObjectSpawnPointSetUp(Abilities abilities)

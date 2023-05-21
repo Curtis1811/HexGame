@@ -50,10 +50,10 @@ public class Pyromancer : NetworkBehaviour //MonoBehaviour//PyromancerHandler
         LargeFireBallPrefab = ph.PyromancerGameObjectPrefabs.Find(x => x.name == "LargeFireBall");
         AdrnalinePrefab = ph.PyromancerGameObjectPrefabs.Find(x => x.name == "AdrenalinePrefab");
         //
-        ClientScene.RegisterPrefab(fireballPrefab);
-        ClientScene.RegisterPrefab(AdrnalinePrefab);
-        ClientScene.RegisterPrefab(MeteorPrefab);
-        ClientScene.RegisterPrefab(LargeFireBallPrefab);
+        NetworkClient.RegisterPrefab(fireballPrefab);
+        NetworkClient.RegisterPrefab(AdrnalinePrefab);
+        NetworkClient.RegisterPrefab(MeteorPrefab);
+        NetworkClient.RegisterPrefab(LargeFireBallPrefab);
         //KeyAssinging(PyromancerChosenList);
     }
 
@@ -75,7 +75,7 @@ public class Pyromancer : NetworkBehaviour //MonoBehaviour//PyromancerHandler
                 {
                     return;
                 }
-                CmdFireball(ClientScene.localPlayer.GetComponent<PlayerMovement>().targetPoint, netId);
+                CmdFireball(NetworkClient.localPlayer.GetComponent<PlayerMovement>().targetPoint, netId);
                 cooldown.PutOnCooldown(fireballPrefab.GetComponent<FireBall>().fireabilities);
                 //Debug.Log(ph.PyromancerChosenList[0]);
             }
@@ -105,7 +105,7 @@ public class Pyromancer : NetworkBehaviour //MonoBehaviour//PyromancerHandler
                 {
                     return;
                 }
-                CmdMeteor(ClientScene.localPlayer.GetComponent<PlayerMovement>().targetPoint);
+                CmdMeteor(NetworkClient.localPlayer.GetComponent<PlayerMovement>().targetPoint);
                 cooldown.PutOnCooldown(MeteorPrefab.GetComponent<Meteor>().fireabilities);
                 //Debug.Log(ph.PyromancerChosenList[3].name);    
             }
@@ -130,7 +130,7 @@ public class Pyromancer : NetworkBehaviour //MonoBehaviour//PyromancerHandler
         fireball.GetComponent<FireBall>().SpawnedNetId = id;
         fireball.GetComponent<FireBall>().timer = NetworkTime.time;
         NetworkServer.Spawn(fireball, this.gameObject);
-        //ClientScene.RegisterPrefab(fireball);     
+        //NetworkClient.RegisterPrefab(fireball);     
     }
 
     [Command]

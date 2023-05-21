@@ -126,7 +126,7 @@ public class Geomancer : Classes
         rocksmash.GetComponent<SpellBehavior>().playerWhoSpawned = this.gameObject;
         rocksmash.GetComponent<SpellBehavior>().SpawnedNetId = this.netId;
         NetworkServer.Spawn(rocksmash,this.gameObject);
-        ClientScene.RegisterPrefab(rocksmash);
+        NetworkClient.RegisterPrefab(rocksmash);
     }
 
     [Command]
@@ -135,7 +135,7 @@ public class Geomancer : Classes
         mudwall.GetComponent<MudWall>().playerWhoSpawned = this.gameObject;
         mudwall.GetComponent<MudWall>().SpawnedNetId = this.netId;
         NetworkServer.Spawn(mudwall,this.gameObject);
-        ClientScene.RegisterPrefab(mudwall);
+        NetworkClient.RegisterPrefab(mudwall);
 
     }
 
@@ -145,7 +145,7 @@ public class Geomancer : Classes
         HexCraft.GetComponent<Hexcraft>().playerWhoSpawned = this.gameObject;
         HexCraft.GetComponent<Hexcraft>().SpawnedNetId = this.netId;
         NetworkServer.Spawn(HexCraft,this.gameObject);
-        ClientScene.RegisterPrefab(HexCraft);
+        NetworkClient.RegisterPrefab(HexCraft);
     }
 
     [Command]
@@ -154,7 +154,7 @@ public class Geomancer : Classes
         earthclap.GetComponent<EarthClap>().playerWhoSpawned = this.gameObject;
         earthclap.GetComponent<EarthClap>().SpawnedNetId  = this.netId;
         NetworkServer.Spawn(earthclap,this.gameObject);
-        ClientScene.RegisterPrefab(earthclap);
+        NetworkClient.RegisterPrefab(earthclap);
     }
     #endregion
 

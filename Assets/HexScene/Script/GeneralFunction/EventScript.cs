@@ -92,7 +92,8 @@ public class EventScript : NetworkBehaviour
         
         lol.An = tempString;
         lol.Class = tempInt;
-        NetworkClient.Send<Notification>(lol);
+        
+        //NetworkClient.Send<Notification>(lol);
         
         //Debug.Log("Data Has Been Sent " + tempString[0] + " " + tempInt );
     }

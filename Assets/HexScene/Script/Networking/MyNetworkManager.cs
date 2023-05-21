@@ -44,10 +44,15 @@ public class MyNetworkManager : NetworkManager
         base.OnStartServer();
         SpawnPoint = GameObject.FindGameObjectsWithTag("SpawnPoint");
         //evnt = FindObjectOfType<EventScript>();
-        NetworkServer.RegisterHandler<Notification>(OnNotification);
+        if (!NetworkClient.active) { return; }
+        
+        //NetworkServer.RegisterHandler(OnNotification);
+        
+        
         //evnt.data += Evnt_DataAssing;
 
     }
+
     //Eventually I would like to store this in variables that take in the player connection and assign the correct player component. This will be donea fter the lobby system.
     public void OnNotification(Notification Message)
     {
@@ -58,28 +63,28 @@ public class MyNetworkManager : NetworkManager
      
 
     //This is the script to add the player to the server
-    public override void OnServerAddPlayer(NetworkConnection con)
+    public override void OnServerAddPlayer(NetworkConnectionToClient con)
     {
        
         //GameObject player;
         //player = Instantiate(playerPrefab, playerSpawn);
         assingPlayerClass(con);
         //Here we need to add class component to the player. May have to take more permaters in to AssignPlayerClass 
-        //ClientScene.RegisterPrefab(player);
+        //NetworkClient.RegisterPrefab(player);
         //NetworkServer.AddPlayerForConnection(con, player);
-      
+        
     }
     
 
     // -- Client -- \\
-    public override void OnClientConnect(NetworkConnection con)
+    public override void OnClientConnect()
     {
-        base.OnClientConnect(con);
+        base.OnClientConnect();
         //GameIsReady?.Invoke(con);
         //evnt = GetComponent<EventScript>();
         Debug.Log("ClientHasConnected");
         //We can actually parse the Players Class Here
-        ClientScene.AddPlayer(con);
+        NetworkClient.AddPlayer();
         // When a client Connects a Ready event is fired (Invoked)
         //Debug.Log("ClientConnected!");
         //PlayerID.Add(con.connectionId);
@@ -92,9 +97,9 @@ public class MyNetworkManager : NetworkManager
         
     }
 
-    public override void OnClientDisconnect(NetworkConnection conn)
+    public override void OnClientDisconnect()
     {
-        base.OnClientDisconnect(conn);
+        base.OnClientDisconnect();
         //Here we need to destroy all Gameobjects that are associated with the Client Connection
     }
 
@@ -105,10 +110,10 @@ public class MyNetworkManager : NetworkManager
     }
 
     //here is where we assing players their Class From the Server
-    public void assingPlayerClass(NetworkConnection con)
+    public void assingPlayerClass(NetworkConnectionToClient con)
     {
         GameObject player;
-        tempInt = 4; // TESTING REMOVE
+        //tempInt = 4; // TESTING REMOVE
         int index = Random.Range(0, SpawnPoint.Length);
         switch (tempInt)
         {
@@ -117,7 +122,7 @@ public class MyNetworkManager : NetworkManager
                 player = Instantiate(pyromancer, SpawnPoint[index].transform.position, SpawnPoint[index].transform.rotation);
                 player.GetComponent<PyromancerHandler>().abilityData = tempString;
                 NetworkServer.AddPlayerForConnection(con, player);
-                ClientScene.RegisterPrefab(player);
+                NetworkClient.RegisterPrefab(player);
                 break;
             
             case 2:
@@ -125,9 +130,9 @@ public class MyNetworkManager : NetworkManager
                 player = Instantiate(hydromancer, SpawnPoint[index].transform.position, SpawnPoint[index].transform.rotation);
                 player.GetComponent<HydromancerHandler>().abilityData = tempString;
                 NetworkServer.AddPlayerForConnection(con, player);
-                ClientScene.RegisterPrefab(player);
+                NetworkClient.RegisterPrefab(player);
                 //player.GetComponent<HydromancerHandler>().abilityData = tempString;
-                //ClientScene.RegisterPrefab(player);
+                //NetworkClient.RegisterPrefab(player);
                 //NetworkServer.AddPlayerForConnection(con, player);
                 break; 
             
@@ -140,7 +145,7 @@ public class MyNetworkManager : NetworkManager
                 player = Instantiate(geomancer, SpawnPoint[index].transform.position, SpawnPoint[index].transform.rotation);
                 player.GetComponent<GeomancerHandler>().abilityData = tempString;
                 NetworkServer.AddPlayerForConnection(con, player);
-                ClientScene.RegisterPrefab(player);
+                NetworkClient.RegisterPrefab(player);
                 break;
       
             default:

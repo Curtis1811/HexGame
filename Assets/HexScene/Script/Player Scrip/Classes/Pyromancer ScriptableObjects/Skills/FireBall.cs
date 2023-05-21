@@ -32,7 +32,7 @@ public class FireBall : SpellBehavior
     void Update()
     {
         Debug.DrawRay(this.transform.position, ProjectileDirection, Color.green, Mathf.Infinity);
-        if (hasAuthority)
+        if (isOwned)
             Direction(ProjectileDirection);
             
             //This works now but the the Object will not move toward the Proectile Direction as there is no Target Direction on the newly Spawned player camera
@@ -69,7 +69,7 @@ public class FireBall : SpellBehavior
     [ClientRpc]
     public void RpcMoveToMouse(Vector3 Direction)
     {
-        if (hasAuthority)
+        if (isOwned)
             return;
 
         transform.position = Direction;
@@ -77,11 +77,11 @@ public class FireBall : SpellBehavior
     }
 
 
-    [Command(ignoreAuthority = true)]
+    [Command(requiresAuthority = true)]
     public void CmdDespawnFireBall()
     {
         Debug.Log("Despawned on clients aswell");
-        ClientScene.UnregisterPrefab(this.gameObject);
+        NetworkClient.UnregisterPrefab(this.gameObject);
         Destroy(this.gameObject);
     }
 

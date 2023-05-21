@@ -122,7 +122,7 @@ public class Hydromancer : NetworkBehaviour
         Wave.GetComponent<WaterWave>().timer = NetworkTime.time;
         Wave.GetComponent<WaterWave>().SpawnedNetId = this.netId;
         NetworkServer.Spawn(Wave, this.gameObject);
-        ClientScene.RegisterPrefab(Wave);
+        NetworkClient.RegisterPrefab(Wave);
     }
 
     [Command]
@@ -135,7 +135,7 @@ public class Hydromancer : NetworkBehaviour
         WhirlPool.GetComponent<Whirlpool>().timer = NetworkTime.time;
         WhirlPool.GetComponent<Whirlpool>().SpawnedNetId = this.netId;
         NetworkServer.Spawn(WhirlPool, this.gameObject);
-        ClientScene.RegisterPrefab(WhirlPool);
+        NetworkClient.RegisterPrefab(WhirlPool);
 
     }
 
@@ -146,7 +146,7 @@ public class Hydromancer : NetworkBehaviour
         bubbleShield.GetComponent<BubbleShield>().PlayerWhoSpawned = this.gameObject;
         bubbleShield.GetComponent<BubbleShield>().SpawnedNID = this.netId;
         NetworkServer.Spawn(bubbleShield, this.gameObject);
-        ClientScene.RegisterPrefab(bubbleShield);
+        NetworkClient.RegisterPrefab(bubbleShield);
     }
 
     #endregion

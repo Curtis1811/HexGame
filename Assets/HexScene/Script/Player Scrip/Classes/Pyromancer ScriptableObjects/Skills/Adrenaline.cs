@@ -11,8 +11,8 @@ public class Adrenaline : SpellBehavior
    
     void Start()
     {
-        playerWhoSpawned = NetworkIdentity.spawned[SpawnedNetId].gameObject;
-
+        playerWhoSpawned = NetworkClient.spawned[SpawnedNetId].gameObject;
+        
         // I need a way to select the GameObject Via Server
         if (isClient)
             //CmdGetPlayerWhoSpawned();
@@ -62,7 +62,7 @@ public class Adrenaline : SpellBehavior
         //This it to unsub from the effect Data as the gameObject is about to be destroyed.
         Debug.Log("Destroying on Destroying on All CLients");
         //This is to destroy the GameObject
-        ClientScene.UnregisterPrefab(this.gameObject);
+        NetworkClient.UnregisterPrefab(this.gameObject);
         Destroy(this.gameObject);
     }
 
@@ -85,7 +85,7 @@ public class Adrenaline : SpellBehavior
     [TargetRpc]
     void TargetRpcSetTransform()
     {
-        this.transform.position = ClientScene.localPlayer.gameObject.transform.position; // The ClientScnee.LocalPlayer Here should be the local players gameobject
+        this.transform.position = NetworkClient.localPlayer.gameObject.transform.position; // The ClientScnee.LocalPlayer Here should be the local players gameobject
         CmdUpdatePosition(this.transform.position);
     }
 
@@ -114,7 +114,7 @@ public class Adrenaline : SpellBehavior
     void TargetRpcSetPlayerWhoSpawned()
     {
         Debug.Log("PlayerSet");
-        playerWhoSpawned = ClientScene.localPlayer.gameObject;
+        playerWhoSpawned = NetworkClient.localPlayer.gameObject;
         abilities.SPE[0].effectData.onEffectBegin?.Invoke(playerWhoSpawned.GetComponent<PlayerMovement>(), abilities, 4, true);
     }
 

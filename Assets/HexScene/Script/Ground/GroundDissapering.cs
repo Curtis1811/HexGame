@@ -4,7 +4,6 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using Mirror;
-using Mirror.Websocket;
 using System.Security.Policy;
 using UnityEngine.UI;
 using TMPro;
@@ -59,7 +58,7 @@ public class GroundDissapering : NetworkBehaviour
         // Change this to check if All Clients are Ready; then run
         if (isServer) 
             //RpcchangeColor();
-            if (Time.time <= time + 5)
+            if (Time.time <= time + Random.Range(1, 3))
             {
                 //RpcchangeColor();
                 RpcChangeColor();
@@ -141,7 +140,7 @@ public class GroundDissapering : NetworkBehaviour
             
             GameObject go = Instantiate(HexPrefab, new Vector3(4, 0, 4), Quaternion.identity);
             go.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
-            ClientScene.RegisterPrefab(go);
+            NetworkClient.RegisterPrefab(go);
             NetworkServer.Spawn(go);
             HexPrefabList.Add(go);
             HexPrefabList[HexPrefabList.Count-1].transform.position += new Vector3(HexPrefabList.Count, HexPrefabList.Count, HexPrefabList.Count);

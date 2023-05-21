@@ -39,12 +39,16 @@ public class PlayerMovement : NetworkBehaviour
     public delegate void Stunned(bool stunned);
     public delegate void DamageRecieved(float Damage);
 
-    [SyncEvent]
+
+    // These used to be Sync events. Documentation says to use Cmds instead https://github.com/MirrorNetworking/Mirror/pull/2178
+    //Todo: Change these to CLientRPC and SercerRPC respectivly
     public event SpeedChange EventOnSpeedChange;
-    [SyncEvent]
+
     public event Stunned EventOnStunned;
-    [SyncEvent]
+
     public event DamageRecieved EventOnDamageRecieved;
+   
+   
     [SyncVar]
     public Vector3 testVector;
 

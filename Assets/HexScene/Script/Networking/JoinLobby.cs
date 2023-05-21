@@ -29,7 +29,8 @@ public class JoinLobby : NetworkBehaviour
     {
         PlayerData pb = SaveData.loadData();
         data?.Invoke(pb.Class, pb.SaveAbilites);
-        Debug.Log("PlayersHaveJoinedGameIsReady " + con.address);
+        //Debug.Log("PlayersHaveJoinedGameIsReady " + con.address);
+        
     }
 
     private void getPlayerData()

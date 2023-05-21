@@ -100,7 +100,7 @@ public class WaterWave : SpellBehavior
     void CmdDespanwnGameObject()
     {
         Debug.Log("Despawned on clients aswell");
-        ClientScene.UnregisterPrefab(this.gameObject);
+        NetworkClient.UnregisterPrefab(this.gameObject);
         Destroy(this.gameObject);
     }
     #endregion

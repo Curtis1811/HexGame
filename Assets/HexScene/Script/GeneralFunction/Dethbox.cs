@@ -28,7 +28,7 @@ public class Dethbox : NetworkBehaviour {
 	[ClientRpc]
 	void RpcRemovePlayerFromClients(GameObject gameObject)
     {
-		//ClientScene.UnregisterPrefab(gameObject);
+		//NetworkClient.UnregisterPrefab(gameObject);
 		//Destroy(gameObject, 0.1f);
 	}
 

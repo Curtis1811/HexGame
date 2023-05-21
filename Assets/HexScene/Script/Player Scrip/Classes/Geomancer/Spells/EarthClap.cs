@@ -100,9 +100,9 @@ public class EarthClap : SpellBehavior
     }
     
 
-    [Command(ignoreAuthority = true)]
+    [Command(requiresAuthority = true)]
     public void CmdDespawnClap(){
-        ClientScene.UnregisterPrefab(this.gameObject);
+        NetworkClient.UnregisterPrefab(this.gameObject);
         Destroy(this.gameObject);   
         //Unsubscribe();
         

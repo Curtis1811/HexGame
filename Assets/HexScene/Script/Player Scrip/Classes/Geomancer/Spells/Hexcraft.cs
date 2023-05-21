@@ -18,7 +18,7 @@ public class Hexcraft : SpellBehavior
     // Update is called once per frame
     void Update()
     {
-        if (hasAuthority)
+        if (isOwned)
             CmdHexcraft();
         
         if(isServer)
@@ -34,7 +34,7 @@ public class Hexcraft : SpellBehavior
     [Command]
     void CmdDespanwnGameObject(){
         //This tell the client what to do FROM the server
-        ClientScene.UnregisterPrefab(this.gameObject);
+        NetworkClient.UnregisterPrefab(this.gameObject);
         Destroy(this.gameObject);
 
     }

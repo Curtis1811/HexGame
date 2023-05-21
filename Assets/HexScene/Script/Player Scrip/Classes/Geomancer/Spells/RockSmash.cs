@@ -24,7 +24,7 @@ public class RockSmash : SpellBehavior
     // Update is called once per frame
     void Update()
     {
-        if (hasAuthority)
+        if (isOwned)
             CmdRockSmash();
         if(isServer)
             RpcTimerDestroy();
@@ -44,7 +44,7 @@ public class RockSmash : SpellBehavior
     }
 
     public void CmdDestroy(){
-        ClientScene.UnregisterPrefab(this.gameObject);
+        NetworkClient.UnregisterPrefab(this.gameObject);
         Destroy(this.gameObject);
         playerWhoSpawned.GetComponent<PlayerMovement>().CanShoot = true;
     }

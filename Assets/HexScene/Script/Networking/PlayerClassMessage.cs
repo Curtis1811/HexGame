@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using Mirror;
 
-public class Notification : MessageBase
+public class Notification : NetworkMessage
 {
     // Start is called before the first frame update
     public string[] An;

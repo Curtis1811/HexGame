@@ -52,11 +52,11 @@ public class Whirlpool : SpellBehavior
     }
     #region Client 
 
-    [Command(ignoreAuthority = true)]
+    [Command(requiresAuthority = true)]
     public void CmdDespawnGameObject()
     {
         Debug.Log("DEspawned on clients aswell");
-        ClientScene.UnregisterPrefab(this.gameObject);
+        NetworkClient.UnregisterPrefab(this.gameObject);
         Destroy(this.gameObject);
     }
     #endregion

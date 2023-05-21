@@ -1,5 +1,5 @@
 sceneSetups:
-- path: Assets/Scenes/Curtis_Scene.unity
+- path: Assets/Scenes/Luis Scenes/PLES/Game.unity
   isLoaded: 1
   isActive: 1
   isSubScene: 0

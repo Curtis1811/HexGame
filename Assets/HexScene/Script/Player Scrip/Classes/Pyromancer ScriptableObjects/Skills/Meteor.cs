@@ -55,7 +55,7 @@ public class Meteor : SpellBehavior
     public void CmdDespawnFireBall()
     {
         Debug.Log("DEspawned on clients aswell");
-        ClientScene.UnregisterPrefab(this.gameObject);
+        NetworkClient.UnregisterPrefab(this.gameObject);
         Destroy(this.gameObject);
         
     }
@@ -67,7 +67,7 @@ public class Meteor : SpellBehavior
     [ClientRpc]
     public void RpcUpdateMeteorPosition(Vector3 Direction)
     {
-        if (!hasAuthority)
+        if (!isOwned)
             return;
 
         this.transform.position = Direction;

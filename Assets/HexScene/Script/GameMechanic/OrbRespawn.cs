@@ -1,5 +1,4 @@
 ﻿using Mirror;
-using Mirror.Websocket;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,7 +34,7 @@ public class OrbRespawn : NetworkBehaviour {
         {
             random = Random.Range(0, 4);            
             GameObject orbInstance = Instantiate(orb, spawnpoint[random].GetComponentInChildren<Transform>().transform.position, Quaternion.identity);
-            ClientScene.RegisterPrefab(orbInstance);
+            NetworkClient.RegisterPrefab(orbInstance);
             //orbInstance.AddComponent<NetworkTransform>();
             NetworkServer.Spawn(orbInstance);
         }
