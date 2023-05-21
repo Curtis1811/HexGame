@@ -57,7 +57,7 @@ public class CooldownSystem : MonoBehaviour
 }
 
 public class CooldownData{
-     public int id { get; }
+    public int id { get; }
     public float remaningTime { get; private set; }
     public CooldownData(ICooldownInterface cooldown)
     {

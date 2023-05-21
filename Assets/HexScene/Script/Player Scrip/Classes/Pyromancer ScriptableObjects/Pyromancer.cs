@@ -44,10 +44,12 @@ public class Pyromancer : NetworkBehaviour //MonoBehaviour//PyromancerHandler
     }
     void Start()
     {
+        //This should be loaded though resource Folder in assets
         fireballPrefab = ph.PyromancerGameObjectPrefabs.Find(x => x.name == "FireBall");
         MeteorPrefab = ph.PyromancerGameObjectPrefabs.Find(x => x.name == "Meteor");
         LargeFireBallPrefab = ph.PyromancerGameObjectPrefabs.Find(x => x.name == "LargeFireBall");
         AdrnalinePrefab = ph.PyromancerGameObjectPrefabs.Find(x => x.name == "AdrenalinePrefab");
+        //
         ClientScene.RegisterPrefab(fireballPrefab);
         ClientScene.RegisterPrefab(AdrnalinePrefab);
         ClientScene.RegisterPrefab(MeteorPrefab);
@@ -162,7 +164,6 @@ public class Pyromancer : NetworkBehaviour //MonoBehaviour//PyromancerHandler
     public void CmdLargeFireBall(Vector3 MousePosition)
     {
         Debug.Log(MousePosition  + " MOUSE POSITION");
-
         //Vector3 SpawnPosition
         GameObject LargeFireBall = Instantiate(LargeFireBallPrefab, this.transform.position, this.transform.rotation);
         LargeFireBall.GetComponent<LargeFireBall>().x = MousePosition.x;

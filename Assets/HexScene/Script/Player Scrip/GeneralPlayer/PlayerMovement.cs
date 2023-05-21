@@ -15,9 +15,9 @@ public class PlayerMovement : NetworkBehaviour
     [Header("NetworkVariables")]
     //This Health is for Testing; CHANGE THESE TO PROTECTED AND USD FUNCTIONS TO CHANGE THEM
     [SyncVar]
-    public float health;
+    public float health; // players health
     [SyncVar]
-    public int stamina;
+    public int stamina; // this is for player dodge
     [SyncVar]
     public float scaler; // this is speed
     public float OriginalScaler; // this is the players Original Speed

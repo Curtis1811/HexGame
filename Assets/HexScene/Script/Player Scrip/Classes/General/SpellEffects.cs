@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
-
 //Maybe here we will need an Enum for Status Effects.
 
 public abstract class SpellEffects : ScriptableObject
@@ -20,7 +18,6 @@ public abstract class SpellEffects : ScriptableObject
         AOE,
         DOT,
         FlatDamage
-
     }
     //Here we are defining an effect event that will take in the 2 different playerMovement scripts. For now we shall change the HP to 5 As a test.
     //public abstract void ExceuteEffect(Abilities ability, PlayerMovement go, PlayerMovement PlayerPrefab);
